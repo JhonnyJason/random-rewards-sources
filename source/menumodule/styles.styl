@@ -7,13 +7,16 @@ menu-icon-size = 25px
     width 260px
     height 100% 
     box-sizing: border-box   
-    padding 5px 15px
+    padding 15px
+    padding-top: header-height + 5px
+    padding-bottom: footer-height + 5px
     position absolute
     top 0
     right 0
-    background-color white
+    background-color cd-casinored
     transition transform 0.3s
     transform translateX(102%)
+    box-shadow: 0 0 7px 0 alpha(black, 0.4)
 
     .menu-group
         padding 10px 0
@@ -23,7 +26,7 @@ menu-icon-size = 25px
         align-items: center
         @extends .click-button
     .menu-entry:hover
-        background-color alpha(cd-flash, 0.2)
+        background-color alpha(cd-billardgreen, 0.2)
         
     .menu-icon
         width: menu-icon-size
@@ -37,17 +40,17 @@ menu-icon-size = 25px
         position relative
         top 1px
 
-#all-users
-    border-top solid 1px alpha(cd-flash, 0.1)
-    border-bottom solid 1px alpha(cd-flash, 0.1)
+#all-rewards
+    border-top solid 1px alpha(black, 0.1)
+    border-bottom solid 1px alpha(black, 0.1)
 
-.no-user
-    #all-users
+.no-rewards
+    #all-rewards
         border-bottom none
         padding 0
     #menu-logout
         pointer-events: none
-        opacity 0.6
+        opacity 0.4
         
 .menu-on
     #menu

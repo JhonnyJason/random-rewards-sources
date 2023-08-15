@@ -9,27 +9,27 @@ import M from "mustache"
 
 ############################################################
 import * as app from "./appcoremodule.js"
-import * as contentModule from "./contentmodule.js"
 import * as logoutmodal from "./logoutmodal.js"
+import * as rewardModule from "./rewardmodule.js"
 
 ############################################################
-# menuAddCode = document.getElementById("menu-add-code")
-# menuMoreInfo = document.getElementById("menu-more-info")
-# menuLogout = document.getElementById("menu-logout")
-# menuVersion = document.getElementById("menu-version")
-# allUsers = document.getElementById("all-users")
-# menuEntryTemplate =  document.getElementById("menu-entry-template")
+menuHome = document.getElementById("menu-home")
+menuAccount = document.getElementById("menu-account")
+menuAddReward = document.getElementById("menu-add-reward")
+allRewards = document.getElementById("all-rewards")
+menuLogout = document.getElementById("menu-logout")
+menuEntryTemplate =  document.getElementById("menu-entry-template")
 
 ############################################################
-# entryTemplate = menuEntryTemplate.innerHTML
+entryTemplate = menuEntryTemplate.innerHTML
 
 ############################################################
 export initialize = ->
     log "initialize"
-    # menuAddCode.addEventListener("click", addCodeClicked)
-    # menuMoreInfo.addEventListener("click", moreInfoClicked)
-    # menuLogout.addEventListener("click", logoutClicked)
-    # menuVersion.addEventListener("click", menuVersionClicked)
+    menuHome.addEventListener("click", menuHomeClicked)
+    menuAccount.addEventListener("click", menuAccountClicked)
+    menuAddReward.addEventListener("click", addRewardClicked)
+    menuLogout.addEventListener("click", logoutClicked)
     return
 
 ############################################################
@@ -37,24 +37,31 @@ export initialize = ->
 userEntryClicked = (evnt) ->
     log "userEntryClicked"
     el = evnt.currentTarget
-    userIndex = el.getAttribute("user-index")
-    log userIndex
-    {activeAccount} = accountModule.getAccountsInfo()
-    userIndex = parseInt(userIndex)
+    rewardIndex = el.getAttribute("reward-index")
+    log rewardIndex
+    app.configureReward(rewardIndex)
 
-    if userIndex == activeAccount then contentModule.setToUserImagesState()
+    # {activeAccount} = accountModule.getAccountsInfo()
+    # userIndex = parseInt(userIndex)
 
-    accountModule.setAccountActive(userIndex) unless userIndex == NaN
+    # if userIndex == activeAccount then contentModule.setToUserImagesState()
+
+    # accountModule.setAccountActive(userIndex) unless userIndex == NaN
     return
 
-addCodeClicked = (evnt) ->
-    log "addCodeClicked"
-    contentModule.setToAddCodeState()
+menuHomeClicked = (evnt) ->
+    log "menuHomeClicked"
+    app.goHome()
     return
 
-moreInfoClicked = (evnt) ->
-    log "moreInfoClicked"
-    app.moreInfo()
+menuAccountClicked = (evnt) ->
+    log "menuAccountClicked"
+    app.configureAccount()
+    return
+
+addRewardClicked = (evnt) ->
+    log "addRewardClicked"
+    app.createNewReward()
     return
 
 logoutClicked = (evnt) ->
@@ -64,11 +71,6 @@ logoutClicked = (evnt) ->
         log "LogoutModal.userConfirmation() succeeded!"
         app.logout()
     catch err then log err
-    return
-
-menuVersionClicked = (evnt) ->
-    log "menuVersionClicked"
-    app.upgrade()
     return
 
 #endregion
@@ -84,28 +86,31 @@ export setMenuOn = ->
     return
 
 ############################################################
-export updateAllUsers = ->
-    log "updateAllUsers"
-    {activeAccount, allAccounts, accountValidity} = accountModule.getAccountsInfo()
+export updateAllRewards = ->
+    log "updateAllRewards"
+    allRewards = rewardModule.getAllRewards()
+    ## TODO implement
     
-    html = ""
-    for accountObj,idx in allAccounts
-        log "#{idx}:#{accountObj.label}"
-        cObj = {}
-        cObj.userLabel = accountObj.label
-        cObj.index = idx
-        html += M.render(entryTemplate, cObj)
+    # {activeAccount, allAccounts, accountValidity} = accountModule.getAccountsInfo()
+    
+    # html = ""
+    # for accountObj,idx in allAccounts
+    #     log "#{idx}:#{accountObj.label}"
+    #     cObj = {}
+    #     cObj.userLabel = accountObj.label
+    #     cObj.index = idx
+    #     html += M.render(entryTemplate, cObj)
 
-    allUsers.innerHTML = html
+    # allUsers.innerHTML = html
     
-    if allAccounts.length == 0 then menu.classList.add("no-user")
-    else menu.classList.remove("no-user")
+    # if allAccounts.length == 0 then menu.classList.add("no-user")
+    # else menu.classList.remove("no-user")
     
-    activeUser = document.querySelector(".menu-entry[user-index='#{activeAccount}']")
-    if activeUser? then activeUser.classList.add("active-user")
+    # activeUser = document.querySelector(".menu-entry[user-index='#{activeAccount}']")
+    # if activeUser? then activeUser.classList.add("active-user")
 
-    allUserEntries = document.querySelectorAll("#all-users > *")
-    for userEntry,idx in allUserEntries
-        log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
-        userEntry.addEventListener("click", userEntryClicked)
+    # allUserEntries = document.querySelectorAll("#all-users > *")
+    # for userEntry,idx in allUserEntries
+    #     log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
+    #     userEntry.addEventListener("click", userEntryClicked)
     return

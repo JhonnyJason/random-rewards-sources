@@ -1,8 +1,8 @@
 //- menu structure
 #menu-hidden-templates
     #menu-entry-template
-        a.menu-entry(user-index="{{{index}}}")
-            .menu-icon: svg: use(href="#svg-configure-icon")
+        a.menu-entry(reward-index="{{{index}}}")
+            .menu-icon: svg: use(href="#svg-wrench-icon")
             .menu-label {{{rewardLabel}}}
     
 nav#menu
@@ -10,17 +10,19 @@ nav#menu
         a.menu-entry#menu-home
             .menu-icon: svg: use(href="#svg-home-icon")
             .menu-label Home
-        a.menu-entry#menu-add-reward
-            .menu-icon: svg: use(href="#svg-plus-icon")
-            .menu-label
-    .menu-group#all-rewards
-    .menu-group
         a.menu-entry#menu-account
             .menu-icon: svg: use(href="#svg-user-icon")
             .menu-label Account
-        a.menu-entry#menu-about-info(target="_blank" href="https://dotv.ee/random-rewards.html")
+
+    .menu-group
+        a.menu-entry#menu-add-reward
+            .menu-icon: svg: use(href="#svg-plus-icon")
+            .menu-label Add Reward
+    .menu-group#all-rewards
+    .menu-group
+        a.menu-entry#menu-about(target="_blank" href="https://dotv.ee/random-rewards.html")
             .menu-icon: svg: use(href="#svg-info-icon")
-            .menu-label About
+            .menu-label What is this?
         a.menu-entry#menu-logout
             .menu-icon: svg: use(href="#svg-logout-icon")
             .menu-label Logout
