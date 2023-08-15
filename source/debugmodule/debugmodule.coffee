@@ -7,7 +7,7 @@ export modulesToDebug = {
     # configmodule: true
     # contentmodule: true
     # errorfeedbackmodule: true
-    # menumodule: true
+    menumodule: true
     # utilmodule: true
 
 }

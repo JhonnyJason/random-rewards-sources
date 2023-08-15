@@ -9,17 +9,22 @@ import * as content from "./contentmodule.js"
 import * as menuModule from "./menumodule.js"
 
 ############################################################
+appLogo = document.getElementById("app-logo")
+menuButton = document.getElementById("menu-button")
+menuCloseButton = document.getElementById("menu-close-button")
+
+############################################################
 export initialize = ->
     log "initialize"
-    susdoxLogo.addEventListener("click", susdoxLogoClicked)
+    appLogo.addEventListener("click", appLogoClicked)
     menuButton.addEventListener("click", menuButtonClicked)
     menuCloseButton.addEventListener("click", menuCloseButtonClicked)
     return
 
 ############################################################
-susdoxLogoClicked = ->
-    log "susdoxLogoClicked"
-    content.susdoxLogoClicked()
+appLogoClicked = ->
+    log "appLogoClicked"
+    ## TODO: implement
     return
 
 menuButtonClicked = ->

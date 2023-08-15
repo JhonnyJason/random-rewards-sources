@@ -1,7 +1,10 @@
 // footer styles
+footer-icon-size = 30px
+
 #footer
-    background-color cd-casinored
-    box-shadow 0 0 5px 0 alpha(black, 0.1)
+    background-color cd-menu-background
+    color cd-menu-color
+    box-shadow 0 0 7px 0 alpha(black, 0.4)
     display: flex
     justify-content: space-between
     align-items: center
@@ -11,3 +14,65 @@
     padding 15px
     position: relative
     z-index: 99
+
+#footer-links
+    .link-icon
+        height footer-icon-size
+        width footer-icon-size
+
+#footer-version
+    color: cd-billardgreen
+    opacity 0.6
+    pointer-events: none
+    padding 8px 15px 
+    display flex
+    align-items: center
+    @extends .click-button
+
+    #to-update-icon
+    #up-to-date-icon
+    #to-version-icon
+        height footer-icon-size * 0.7
+        width footer-icon-size * 0.7
+    
+    #to-update-icon
+        display none
+
+    #up-to-date-icon
+        display: block
+
+    #to-version-icon
+        width footer-icon-size * 0.5
+        height footer-icon-size * 0.5
+        margin 0 5px
+        display: none
+
+    #current-version
+    #new-version
+        line-height: 150%
+        font-size: 20px
+        margin-left 15px
+        // funny specific issue here...
+        position relative
+        top 1px
+
+    #new-version
+        display: none
+
+#menu-version.to-update
+    color white
+    opacity 1
+    pointer-events: all
+    background-color alpha(cd-actionorange, 0.9)
+    border-radius 3px
+
+    #to-update-icon
+        display block
+    #up-to-date-icon
+        display: none
+    #to-version-icon
+        display: block
+    #new-version
+        margin-left: 0
+        display: block
+

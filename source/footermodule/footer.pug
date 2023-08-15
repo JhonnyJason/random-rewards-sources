@@ -1,2 +1,12 @@
 //- footer structure
 #footer
+    #footer-links
+        a#footer-github-link.link-icon(href="https://github.com/JhonnyJason/random-rewards.git" target="_blank"): svg: use(href="#svg-github-icon")
+        a#footer-telegram-link.link-icon(href="#telegram" target="_blank"): svg: use(href="#svg-telegram-icon")
+
+    a#footer-version
+        #up-to-date-icon.menu-icon: svg: use(href="#svg-check-mark-icon")
+        #to-update-icon.menu-icon: svg: use(href="#svg-update-icon")
+        #current-version.menu-label v0.1.x
+        #to-version-icon.menu-icon: svg: use(href="#svg-arrow-right-icon")
+        #new-version.menu-label v0.1.y
