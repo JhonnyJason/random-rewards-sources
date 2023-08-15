@@ -1,6 +1,37 @@
-// content styles
+/*==========================================================
+ Content Styles
+==========================================================*/
 #content
     display flex
     width 100%
     height 100%
     background-color: cd-content-background
+
+    #no-rewards-frame
+    #reward-wheel-frame
+    #reward-judgement-overlay
+        width 100%
+        height 100%
+
+    #no-rewards-frame
+        display none
+    #reward-wheel-frame
+        display none
+    #reward-judgement-overlay
+        display none
+
+/*==========================================================
+ Content State Styles
+==========================================================*/
+#content.no-rewards
+    #no-rewards-frame
+        display block
+
+#content.other-state
+    #other-state-frame
+        display block
+
+/*==========================================================
+ Additional files
+==========================================================*/
+@import 'norewardframe.styl'
