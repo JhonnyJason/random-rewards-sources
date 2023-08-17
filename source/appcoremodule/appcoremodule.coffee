@@ -34,6 +34,7 @@ export configureAccount = ->
 ############################################################
 export createNewReward = ->
     log "createNewReward"
+    
     ## TODO implement
     return
 

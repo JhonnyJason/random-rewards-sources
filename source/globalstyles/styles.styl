@@ -1,22 +1,25 @@
 // globalstyles styles
 
 /*==========================================================
-Color Theme
+ Color Theme
 ==========================================================*/
-cd-foreground = black
-cd-flash = purple
-// cd-background = black
-// cd-background = #0A6E35
-cd-casinored = #972a27
-cd-billardgreen = #0A6E35
-cd-actionorange = #ff8e1a
+cd-pink = #fbdcdb
+cd-blue = #558097
+cd-darkblue = #30576C
 
-cd-menu-color = cd-casinored
+cd-actionorange = #ff8e1a
+cd-foreground = cd-darkblue
+cd-flash = cd-pink
+// cd-background = black
+cd-background = #fff
+
+cd-menu-color = cd-pink
 cd-menu-background = black
-cd-content-background = cd-billardgreen
+cd-content-background = cd-background
+cd-text-color = cd-blue
 
 /*==========================================================
-Global Variables
+ Global Variables
 ==========================================================*/
 // max-content-width = 900px
 // mobile-side-padding = 15px
@@ -24,15 +27,26 @@ header-height = 60px
 footer-height = header-height
 
 /*==========================================================
-General Tag Styles
+ General Tag Styles
 ==========================================================*/
+html
+    position relative
+    width 100%
+    min-width 280px
+    height 100%
+    min-height 550px
+    // height 100lvh
+    overflow: hidden
+
 body
+    position relative
     background-color cd-background
     color cd-foreground
     font-family: Arial, Helvetica, sans-serif
     text-align: center
     font-size: 12pt
-    height 100vh
+    line-height: 130%
+    height 100%
     width 100%
     overflow hidden
 
@@ -42,7 +56,7 @@ h2
     font-size: 15pt
 p
     font-size: 12pt
-    color alpha(#000, 0.8)
+    color cd-text-color
     line-height: 130%
 
 svg

@@ -5,7 +5,7 @@ export modulesToDebug = {
 
     appcoremodule: true
     # configmodule: true
-    # contentmodule: true
+    contentmodule: true
     # errorfeedbackmodule: true
     menumodule: true
     # utilmodule: true
