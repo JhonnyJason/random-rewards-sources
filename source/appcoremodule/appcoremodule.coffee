@@ -5,6 +5,9 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as contentModule from "./contentmodule.js"
+
+############################################################
 export initialize = ->
     log "initialize"
     #Implement or Remove :-)
@@ -28,20 +31,22 @@ export goHome = ->
 ############################################################
 export configureAccount = ->
     log "configureAccount"
-    ## TODO implement
+    contentModule.setStateToConfigureAccount()
     return
 
 ############################################################
 export createNewReward = ->
     log "createNewReward"
     
-    ## TODO implement
+    ## TODO implement creating new reward element
+    contentModule.setStateToConfigureReward()
     return
 
 ############################################################
 export configureReward = ->
     log "configureReward"
-    ## TODO implement
+    ## TODO implement load correct Reward do edit field
+    contentModule.setStateToConfigureReward()
     return
 
 ############################################################
@@ -49,8 +54,8 @@ export logout = ->
     log "logout"
     # Notice: here we already checked if the user really wants to log out
 
-    ##TODO implement
-
+    ##TODO implement removal of all rewarsd
+    contentModule.setStateToNoRewards()
     return
 
 #endregion

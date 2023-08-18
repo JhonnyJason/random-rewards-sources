@@ -15,9 +15,15 @@
 
     #no-rewards-frame
         display none
+    #rewards-list-frame
+        display: none
     #reward-wheel-frame
         display none
     #reward-judgement-overlay
+        display none
+    #reward-configuration-frame
+        display none
+    #account-configuration-frame
         display none
 
 /*==========================================================
@@ -27,8 +33,33 @@
     #no-rewards-frame
         display block
 
-#content.other-state
-    #other-state-frame
+#content.rewards-list
+    #rewards-list-frame
+        display block
+
+#content.configure-reward
+    #reward-configuration-frame
+        display block
+
+#content.reward-inactive
+    #reward-wheel-frame
+        display block
+        opacity: 0.6
+
+#content.reward-active
+    #reward-wheel-frame
+        display block
+
+#content.reward-unjudged
+    #reward-wheel-frame
+        display block
+
+#content.reward-judgement-overlay
+    #reward-judgement-overlay
+        display block
+
+#content.configure-account
+    #account-configuration-frame
         display block
 
 /*==========================================================
