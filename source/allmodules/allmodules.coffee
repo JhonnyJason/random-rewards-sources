@@ -6,6 +6,7 @@ import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as menumodule from "./menumodule.js"
 import * as rewardmodule from "./rewardmodule.js"
+import * as statemodule from "./statemodule.js"
 import * as usermodalmodule from "./usermodalmodule.js"
 
 Modules = {
@@ -17,6 +18,7 @@ Modules = {
     headermodule,
     menumodule,
     rewardmodule,
+    statemodule,
     usermodalmodule,
 }
 

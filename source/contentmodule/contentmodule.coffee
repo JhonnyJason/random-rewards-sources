@@ -10,7 +10,7 @@ import * as app from "./appcoremodule.js"
 ############################################################
 #region DOM Cache
 addNewRewardButton = document.getElementById("add-new-reward-button")
-
+mainElement = document.getElementsByTagName("main")[0]
 #endregion
 
 ############################################################
@@ -24,9 +24,10 @@ currentState = "no-rewards"
 export initialize = ->
     log "initialize"
     addNewRewardButton.addEventListener("click", addNewRewardClicked)
-    content.addEventListener("click", contentClicked)
-    return
+    mainElement.addEventListener("click", contentClicked)
 
+    # setStateToNoRewards()
+    return
 
 ############################################################
 addNewRewardClicked = (evnt) ->
@@ -57,14 +58,14 @@ doubleClickHappened = ->
 ############################################################
 resetAllStateClasses = ->
     log "resetAllStateClasses"
-    content.classList.remove("no-rewards")
-    content.classList.remove("rewards-list")
-    content.classList.remove("reward-inactive")
+    mainElement.classList.remove("no-rewards")
+    mainElement.classList.remove("rewards-list")
+    mainElement.classList.remove("reward-inactive")
     content.classList.remove("reward-unjudged")
-    content.classList.remove("reward-judgement-overlay")
-    content.classList.remove("reward-active")
-    content.classList.remove("configure-account")
-    content.classList.remove("configure-reward")
+    mainElement.classList.remove("reward-judgement-overlay")
+    mainElement.classList.remove("reward-active")
+    mainElement.classList.remove("configure-account")
+    mainElement.classList.remove("configure-reward")
     return
     
 ############################################################
@@ -74,7 +75,7 @@ export setStateToNoRewards = ->
     resetAllStateClasses()
 
     currentState = "no-rewards"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToRewardsList = ->
@@ -82,7 +83,7 @@ export setStateToRewardsList = ->
     resetAllStateClasses()
 
     currentState = "rewards-list"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToRewardInactive = ->
@@ -90,7 +91,7 @@ export setStateToRewardInactive = ->
     resetAllStateClasses()
 
     currentState = "reward-inactive"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToRewardUnjudged = ->
@@ -98,7 +99,7 @@ export setStateToRewardUnjudged = ->
     resetAllStateClasses()
 
     currentState = "reward-unjudged"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToRewardJudgementOverlay = ->
@@ -106,7 +107,7 @@ export setStateToRewardJudgementOverlay = ->
     resetAllStateClasses()
 
     currentState = "reward-judgement-overlay"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToRewardActive = ->
@@ -114,7 +115,7 @@ export setStateToRewardActive = ->
     resetAllStateClasses()
 
     currentState = "reward-active"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToConfigureAccount = ->
@@ -122,7 +123,7 @@ export setStateToConfigureAccount = ->
     resetAllStateClasses()
 
     currentState = "configure-account"
-    content.classList.add(currentState)
+    mainElement.classList.add(currentState)
     return
 
 export setStateToConfigureReward = ->
@@ -130,7 +131,7 @@ export setStateToConfigureReward = ->
     resetAllStateClasses()
 
     currentState = "configure-reward"
-    content.classList.add("configure-reward")
+    mainElement.classList.add("configure-reward")
     return
 
 #endregion

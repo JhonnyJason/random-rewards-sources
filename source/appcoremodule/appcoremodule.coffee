@@ -17,6 +17,8 @@ export initialize = ->
 ############################################################
 export startUp = ->
     log "startUp"
+    # contentModule.setStateToNoRewards()
+    contentModule.setStateToConfigureReward()
     return
 
 ############################################################

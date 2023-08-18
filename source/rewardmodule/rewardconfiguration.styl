@@ -1,0 +1,104 @@
+/*==========================================================
+ Reward Configuration Variables
+==========================================================*/
+editframe-header-height = 50px
+editframe-footer-height = 50px
+editframe-edit-icon-size = 25px
+
+/*==========================================================
+ Reward Configuration Styles
+==========================================================*/
+#rewardconfigurationframe
+    position relative
+    height 100%
+    width 100%
+    overflow: hidden
+
+    .editframe-header
+        position: relative
+        width 100%
+        height: editframe-header-height
+        box-shadow: 0 0 5px 0 alpha(black, 0.2)
+
+        .editframe-cancel-button
+            position: absolute
+            top 50%
+            left 0
+            transform: translateY(-50%)
+            color white
+            background-color cd-blue
+            width 120px
+            font-size: 16px
+            border-radius: 0 3px 3px 0
+            padding 7px
+        
+        .edit-frame-title
+            position: absolute
+            top 50%
+            right 15px
+            transform: translateY(-50%)
+            color cd-darkblue
+            font-size: 16px
+
+
+    .editframe-container
+        width 100%
+        height "calc(100% - %s)" % editframe-header-height
+        // height 100%
+        overflow-y auto
+        overflow-x hidden
+        padding 30px
+        padding-bottom 70px
+        box-sizing: border-box
+
+    .editframe-edit-item
+        max-width: 420px
+        position relative
+        margin-bottom 30px
+        text-align: left
+        cursor: pointer
+        
+        label
+            display block
+            color cd-darkblue
+            font-size: 20px
+            margin-bottom 12px
+
+        .editframe-edit-content
+            font-family: inherit
+            display block
+            width 100%
+            border none
+            color: cd-blue
+            font-size: 16px
+            padding 0
+
+        
+        
+        .editframe-edit-icon
+            height editframe-edit-icon-size
+            width editframe-edit-icon-size
+            position absolute
+            top 0
+            right 0
+
+
+    .editframe-footer
+        position: absolute
+        bottom 0 
+        left 0
+        width 100%
+        height: editframe-footer-height
+
+        .editframe-save-button
+            position: absolute
+            top 50%
+            right 0
+            transform: translateY(-50%)
+            color cd-darkblue
+            background-color cd-pink
+            width 120px
+            font-size: 16px
+            border-radius: 3px 0 0 3px
+            padding 7px
+            box-shadow: 0 0 5px 0 alpha(black, 0.2)

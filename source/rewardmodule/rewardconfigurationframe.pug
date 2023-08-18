@@ -1,29 +1,28 @@
 form#rewardconfigurationframe
     .editframe-header
-        .editframe-header-background
         button.editframe-cancel-button.click-button Cancel
         h1#rewardconfiguration-title.edit-frame-title New Reward
     
-    #rewardconfiguration-container.editframe-container 
+    #rewardconfiguration-container.editframe-container
         .editframe-edit-item
             label(for="name") Name
             .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            input(name="name" type="text").editframe-edit-content My first Reward
+            input(name="name" type="text" value="My first Reward").editframe-edit-content 
         
         .editframe-edit-item
             label(for="condition") Condition
             .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            textarea(name="condition", cols="30", rows="10").editframe-edit-content I focusedly worked on a task and did at least one step of progress.
+            textarea(name="condition", cols="30", rows="5").editframe-edit-content I focusedly worked on a task and did at least one step of progress.
 
         .editframe-edit-item
             label(for="timeframe") Timeframe
             .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            input(name="timeframe" type="text").editframe-edit-content 04:00 - 16:00
+            input(name="timeframe" type="text" value="04:00 - 16:00").editframe-edit-content 
 
         .editframe-edit-item
             label(for="frequency") Frequency
             .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            input(name="frequency" type="text").editframe-edit-content 1h
+            input(name="frequency" type="text" value="1h").editframe-edit-content
 
         .editframe-edit-item
             label(for="rewards") Rewards

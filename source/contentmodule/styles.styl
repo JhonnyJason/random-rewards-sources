@@ -2,63 +2,61 @@
  Content Styles
 ==========================================================*/
 #content
+    position relative
     display flex
     width 100%
     height 100%
     background-color: cd-content-background
 
-    #no-rewards-frame
-    #reward-wheel-frame
-    #reward-judgement-overlay
-        width 100%
-        height 100%
-
-    #no-rewards-frame
-        display none
-    #rewards-list-frame
-        display: none
-    #reward-wheel-frame
-        display none
-    #reward-judgement-overlay
-        display none
-    #reward-configuration-frame
-        display none
-    #account-configuration-frame
-        display none
+/*==========================================================
+ Specific Content Frames
+==========================================================*/
+#no-rewards-frame
+#rewards-list-frame
+#reward-wheel-frame
+#reward-judgement-overlay
+#reward-configuration-frame
+#account-configuration-frame
+    display: none
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
 
 /*==========================================================
- Content State Styles
+ Display by State
 ==========================================================*/
-#content.no-rewards
+.no-rewards
     #no-rewards-frame
         display block
 
-#content.rewards-list
+.rewards-list
     #rewards-list-frame
         display block
 
-#content.configure-reward
+.configure-reward
     #reward-configuration-frame
         display block
 
-#content.reward-inactive
+.reward-inactive
     #reward-wheel-frame
         display block
         opacity: 0.6
 
-#content.reward-active
+.reward-active
     #reward-wheel-frame
         display block
 
-#content.reward-unjudged
+.reward-unjudged
     #reward-wheel-frame
         display block
 
-#content.reward-judgement-overlay
+.reward-judgement-overlay
     #reward-judgement-overlay
         display block
 
-#content.configure-account
+.configure-account
     #account-configuration-frame
         display block
 
