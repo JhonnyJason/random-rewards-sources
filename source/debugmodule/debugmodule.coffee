@@ -8,6 +8,7 @@ export modulesToDebug = {
     contentmodule: true
     # errorfeedbackmodule: true
     menumodule: true
+    rewardmodule: true
     # utilmodule: true
 
 }
