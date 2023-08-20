@@ -18,7 +18,7 @@ lastContentClick = 0
 contentIsLarge = false
 
 #############################################################
-currentState = "no-rewards"
+currentState = "welcome"
 
 ############################################################
 export initialize = ->
@@ -26,7 +26,7 @@ export initialize = ->
     addNewRewardButton.addEventListener("click", addNewRewardClicked)
     mainElement.addEventListener("click", contentClicked)
 
-    # setStateToNoRewards()
+    # setStateToWelcome()
     return
 
 ############################################################
@@ -58,7 +58,7 @@ doubleClickHappened = ->
 ############################################################
 resetAllStateClasses = ->
     log "resetAllStateClasses"
-    mainElement.classList.remove("no-rewards")
+    mainElement.classList.remove("welcome")
     mainElement.classList.remove("rewards-list")
     mainElement.classList.remove("reward-inactive")
     content.classList.remove("reward-unjudged")
@@ -70,11 +70,11 @@ resetAllStateClasses = ->
     
 ############################################################
 #region State Setter Functions
-export setStateToNoRewards = ->
-    log "setStateToNoRewards"
+export setStateToWelcome = ->
+    log "setStateToWelcome"
     resetAllStateClasses()
 
-    currentState = "no-rewards"
+    currentState = "welcome"
     mainElement.classList.add(currentState)
     return
 

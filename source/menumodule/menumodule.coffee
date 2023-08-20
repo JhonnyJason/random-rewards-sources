@@ -30,6 +30,7 @@ export initialize = ->
     menuAccount.addEventListener("click", menuAccountClicked)
     menuAddReward.addEventListener("click", addRewardClicked)
     menuLogout.addEventListener("click", logoutClicked)
+    menu.addEventListener("click", setMenuOff)
     return
 
 ############################################################
@@ -52,16 +53,19 @@ userEntryClicked = (evnt) ->
 menuHomeClicked = (evnt) ->
     log "menuHomeClicked"
     app.goHome()
+    # setMenuOff()
     return
 
 menuAccountClicked = (evnt) ->
     log "menuAccountClicked"
     app.configureAccount()
+    # setMenuOff()
     return
 
 addRewardClicked = (evnt) ->
     log "addRewardClicked"
     app.createNewReward()
+    # setMenuOff()
     return
 
 logoutClicked = (evnt) ->

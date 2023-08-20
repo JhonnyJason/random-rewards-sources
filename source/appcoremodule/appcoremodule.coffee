@@ -17,8 +17,8 @@ export initialize = ->
 ############################################################
 export startUp = ->
     log "startUp"
-    # contentModule.setStateToNoRewards()
-    contentModule.setStateToConfigureReward()
+    ## TODO implement
+    contentModule.setStateToWelcome()
     return
 
 ############################################################
@@ -28,6 +28,7 @@ export startUp = ->
 export goHome = ->
     log "goHome"
     ## TODO implement
+    contentModule.setStateToWelcome()
     return
 
 ############################################################
@@ -57,7 +58,7 @@ export logout = ->
     # Notice: here we already checked if the user really wants to log out
 
     ##TODO implement removal of all rewarsd
-    contentModule.setStateToNoRewards()
+    contentModule.setStateToWelcome()
     return
 
 #endregion
