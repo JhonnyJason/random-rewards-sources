@@ -1,11 +1,11 @@
 //- menu structure
-#menu-hidden-templates
+.hidden-templates
     #menu-entry-template
         a.menu-entry(reward-index="{{{index}}}")
             .menu-icon: svg: use(href="#svg-wrench-icon")
             .menu-label {{{rewardLabel}}}
     
-nav#menu.no-rewards
+nav#menu
     .menu-group
         a.menu-entry#menu-home
             .menu-icon: svg: use(href="#svg-home-icon")
@@ -18,7 +18,7 @@ nav#menu.no-rewards
         a.menu-entry#menu-add-reward
             .menu-icon: svg: use(href="#svg-plus-icon")
             .menu-label Add Reward
-    .menu-group#all-rewards
+    .menu-group#menu-all-rewards
     .menu-group
         a.menu-entry#menu-about(target="_blank" href="https://dotv.ee/random-rewards.html")
             .menu-icon: svg: use(href="#svg-info-icon")

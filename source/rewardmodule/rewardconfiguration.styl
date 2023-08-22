@@ -14,6 +14,9 @@ editframe-edit-icon-size = 25px
     width 100%
     overflow: hidden
 
+/*==========================================================
+ Edit Frame Header Styles
+==========================================================*/
     .editframe-header
         position: relative
         width 100%
@@ -41,6 +44,9 @@ editframe-edit-icon-size = 25px
             font-size: 16px
 
 
+/*==========================================================
+ Edit Frame Container Styles
+==========================================================*/
     .editframe-container
         width 100%
         height "calc(100% - %s)" % editframe-header-height
@@ -82,7 +88,58 @@ editframe-edit-icon-size = 25px
             top 0
             right 0
 
+    #reward-options-total-weight
+        color cd-darkblue
+        margin-bottom 12px
 
+    .reward-option
+        position relative
+        display block
+        width 100%
+        max-width 420px
+        padding 7px
+        box-sizing: border-box
+        border-radius 3px
+        margin-bottom 12px
+        // line-height: 30px
+        box-shadow: 0 0 5px 0 alpha(#000, 0.2)
+
+        .editframe-edit-icon
+            height 20px
+            width 20px
+            top 7px
+            right 7px
+        
+    .reward-option-name
+        color cd-blue
+        margin-bottom 12px
+    .reward-option-weight-line
+        display flex
+        justify-content: space-between
+    .reward-option-weight
+        color cd-blue
+    .reward-option-percent
+        color cd-darkblue
+    
+    #add-reward-option-button
+        display block
+        width 100%
+        max-width 420px
+        // width: 220px
+        // margin auto
+        box-sizing: border-box
+        color cd-darkblue
+        background-color cd-flash
+        padding 15px
+        // font-weight: bold
+        border-radius 3px
+        margin-top 25px
+        box-shadow 0 0 5px 0 alpha(black, 0.2)
+        text-align: center
+        
+/*==========================================================
+ Edit Frame Footer Styles
+==========================================================*/
     .editframe-footer
         position: absolute
         bottom 0 
@@ -102,3 +159,20 @@ editframe-edit-icon-size = 25px
             border-radius: 3px 0 0 3px
             padding 7px
             box-shadow: 0 0 5px 0 alpha(black, 0.2)
+
+        .editframe-delete-button
+            display none
+            position: absolute
+            top 50%
+            left 0
+            transform: translateY(-50%)
+            color white
+            background-color cd-red
+            width 120px
+            font-size: 16px
+            border-radius: 0 3px 3px 0
+            padding 7px
+            box-shadow: 0 0 5px 0 alpha(black, 0.2)
+
+        .editframe-delete-button.shown
+            display block

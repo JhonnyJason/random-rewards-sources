@@ -1,0 +1,18 @@
+//- usermodal structure
+
+#rewardoptioneditmodal.usermodal
+    .click-catcher
+    form.modal-container
+        .modal-header 
+            h2.modal-header-title Warning!
+            .modal-close-button.click-button: svg: use(href="#svg-cross-icon")
+        .modal-content 
+            #rewardoptioneditmodal-name
+                label(for="rewardoptioneditmodal-name-input") Name
+                input#rewardoptioneditmodal-name-input(name="inputrewardoptioneditmodal-name" placeholder="Type name..." type="text")
+            #rewardoptioneditmodal-weight
+                label(for="rewardoptioneditmodal-weight-input")
+                input#rewardoptioneditmodal-weight-input(name="#rewardoptioneditmodal-weight" placeholder="Type name..." type="number")
+        .modal-actions
+            button.modal-accept-button.click-button Okay
+            button.modal-cancel-button.click-button Cancel

@@ -1,11 +1,14 @@
 //- usermodal structure
-#logoutmodal.usermodal
+.hidden-templates 
+    #deletemodal-message-template() All data from <b>{{{label}}}</b> will be deleted from this device.<br><br>This cannot be undone.
+
+#deletemodal.usermodal
     .click-catcher
     .modal-container
         .modal-header 
             h2.modal-header-title Warning!
             .modal-close-button.click-button: svg: use(href="#svg-cross-icon")
-        .modal-content By logging off all data from <b>all your rewards</b> will be deleted from this device.<br><br>This cannot be undone.
+        .modal-content 
         .modal-actions
             .modal-accept-button.click-button Delete
             .modal-cancel-button.click-button Cancel

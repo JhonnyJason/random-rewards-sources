@@ -1,11 +1,9 @@
 menu-icon-size = 25px
 
-#menu-hidden-templates
-    display: none
-
 #menu
     width 260px
-    height 100% 
+    height 100%
+    overflow-y: auto
     box-sizing: border-box   
     padding 15px
     padding-top: header-height + 5px
@@ -18,6 +16,7 @@ menu-icon-size = 25px
     transform translateX(102%)
     box-shadow: 0 0 7px 0 alpha(#000, 0.4)
     z-index 98
+    
     .menu-group
         padding 10px 0
     .menu-entry
@@ -40,12 +39,12 @@ menu-icon-size = 25px
         position relative
         top 1px
 
-#all-rewards
+#menu-all-rewards
     border-top solid 1px alpha(black, 0.1)
     border-bottom solid 1px alpha(black, 0.1)
 
 .no-rewards
-    #all-rewards
+    #menu-all-rewards
         border-bottom none
         padding 0
     #menu-logout

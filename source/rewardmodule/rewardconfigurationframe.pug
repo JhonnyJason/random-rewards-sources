@@ -1,3 +1,12 @@
+.hidden-templates
+    #reward-option-template
+        .reward-option(reward-option-index="{{{index}}}")
+            .editframe-edit-icon: svg: use(href="#svg-edit-icon")
+            .reward-option-name {{{name}}}
+            .reward-option-weight-line
+                .reward-option-weight Weight: {{{weight}}}
+                .reward-option-percent {{{percent}}}%
+
 form#rewardconfigurationframe
     .editframe-header
         button.editframe-cancel-button.click-button Cancel
@@ -25,14 +34,25 @@ form#rewardconfigurationframe
             input#frequency-input(name="frequency" type="text" placeholder="Type here...").editframe-edit-content
 
         .editframe-edit-item
-            label Rewards
-                .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            ul.editframe-edit-content
-                li none 75%
-                li coffee 5%
-                li relax 10%
-                li walk 10%
+            label Reward Options
+            #reward-options-total-weight Total Weight: 82
+            #reward-options-container.editframe-edit-content
+                .reward-option.click-button
+                    .editframe-edit-icon: svg: use(href="#svg-edit-icon")
+                    .reward-option-name No Reward
+                    .reward-option-weight-line
+                        .reward-option-weight Weight: 77
+                        .reward-option-percent 94%
+
+                .reward-option.click-button
+                    .editframe-edit-icon: svg: use(href="#svg-edit-icon")
+                    .reward-option-name Coffee-break
+                    .reward-option-weight-line
+                        .reward-option-weight Weight: 5
+                        .reward-option-percent 6%
+
+            #add-reward-option-button.click-button Add Reward Option
 
     .editframe-footer
-        .editframe-footer-background
+        button.editframe-delete-button.click-button Delete
         button.editframe-save-button.click-button Save

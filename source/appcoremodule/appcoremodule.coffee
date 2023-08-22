@@ -5,7 +5,11 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
+import * as S from "./statemodule.js"
+
+############################################################
 import * as contentModule from "./contentmodule.js"
+import * as rewardModule from "./rewardmodule.js"
 
 ############################################################
 export initialize = ->
@@ -17,8 +21,10 @@ export initialize = ->
 ############################################################
 export startUp = ->
     log "startUp"
-    ## TODO implement
-    contentModule.setStateToWelcome()
+    # update everything which needs date from allRewards
+    S.callOutChange("allRewards")
+    
+    goHome()
     return
 
 ############################################################
@@ -27,8 +33,9 @@ export startUp = ->
 ############################################################
 export goHome = ->
     log "goHome"
-    ## TODO implement
-    contentModule.setStateToWelcome()
+    rewardInfo = rewardModule.getInfo()
+    if rewardInfo.allRewards.length > 0 then contentModule.setStateToRewardsList()
+    else contentModule.setStateToWelcome()
     return
 
 ############################################################
@@ -40,24 +47,28 @@ export configureAccount = ->
 ############################################################
 export createNewReward = ->
     log "createNewReward"
-    
-    ## TODO implement creating new reward element
+    rewardModule.prepareEditNewReward()    
     contentModule.setStateToConfigureReward()
     return
 
 ############################################################
-export configureReward = ->
+export configureReward = (index) ->
     log "configureReward"
-    ## TODO implement load correct Reward do edit field
+    rewardModule.prepareEditReward(index)
     contentModule.setStateToConfigureReward()
+    return
+
+############################################################
+export selectReward = (index) ->
+    log "selectReward"
+    ## TODO implement
     return
 
 ############################################################
 export logout = ->
     log "logout"
     # Notice: here we already checked if the user really wants to log out
-
-    ##TODO implement removal of all rewarsd
+    rewardModule.deleteAll()
     contentModule.setStateToWelcome()
     return
 

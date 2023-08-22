@@ -8,6 +8,9 @@ import { createLogFunctions } from "thingy-debug"
 import M from "mustache"
 
 ############################################################
+import * as S from "./statemodule.js"
+
+############################################################
 import * as app from "./appcoremodule.js"
 import * as logoutmodal from "./logoutmodal.js"
 import * as rewardModule from "./rewardmodule.js"
@@ -16,7 +19,7 @@ import * as rewardModule from "./rewardmodule.js"
 menuHome = document.getElementById("menu-home")
 menuAccount = document.getElementById("menu-account")
 menuAddReward = document.getElementById("menu-add-reward")
-allRewards = document.getElementById("all-rewards")
+menuAllRewards = document.getElementById("menu-all-rewards")
 menuLogout = document.getElementById("menu-logout")
 menuEntryTemplate =  document.getElementById("menu-entry-template")
 
@@ -31,12 +34,47 @@ export initialize = ->
     menuAddReward.addEventListener("click", addRewardClicked)
     menuLogout.addEventListener("click", logoutClicked)
     menu.addEventListener("click", setMenuOff)
+    
+    S.addOnChangeListener("allRewards", rewardsChanged)
     return
 
 ############################################################
 #region event Listeners
-userEntryClicked = (evnt) ->
-    log "userEntryClicked"
+
+############################################################
+rewardsChanged = ->
+    log "rewardsChanged"
+    allRewards = S.get("allRewards")
+    
+    # olog allRewards
+
+
+    if !Array.isArray(allRewards) or allRewards.length == 0
+        menuAllRewards.innerHTML = ""
+        menu.classList.add("no-rewards")
+        return
+
+    html = ""
+    for reward,idx in allRewards
+        # log "#{idx}:#{reward.name}"
+        cObj = {}
+        cObj.index = idx
+        cObj.rewardLabel = reward.name
+        html += M.render(entryTemplate, cObj)
+    
+    # log html
+    menuAllRewards.innerHTML = html
+    menu.classList.remove("no-rewards")
+
+    allRewardEntries = document.querySelectorAll("#menu-all-rewards > *")
+    for rewardEntry,idx in allRewardEntries
+        # log "rewardEntry: #{idx}:#{rewardEntry.getAttribute("reward-index")}"
+        rewardEntry.addEventListener("click", rewardEntryClicked)
+    return
+
+############################################################
+rewardEntryClicked = (evnt) ->
+    log "rewardEntryClicked"
     el = evnt.currentTarget
     rewardIndex = el.getAttribute("reward-index")
     log rewardIndex
@@ -87,34 +125,4 @@ export setMenuOff = ->
 ############################################################
 export setMenuOn = ->
     document.body.classList.add("menu-on")
-    return
-
-############################################################
-export updateAllRewards = ->
-    log "updateAllRewards"
-    allRewards = rewardModule.getAllRewards()
-    ## TODO implement
-    
-    # {activeAccount, allAccounts, accountValidity} = accountModule.getAccountsInfo()
-    
-    # html = ""
-    # for accountObj,idx in allAccounts
-    #     log "#{idx}:#{accountObj.label}"
-    #     cObj = {}
-    #     cObj.userLabel = accountObj.label
-    #     cObj.index = idx
-    #     html += M.render(entryTemplate, cObj)
-
-    # allUsers.innerHTML = html
-    
-    # if allAccounts.length == 0 then menu.classList.add("no-user")
-    # else menu.classList.remove("no-user")
-    
-    # activeUser = document.querySelector(".menu-entry[user-index='#{activeAccount}']")
-    # if activeUser? then activeUser.classList.add("active-user")
-
-    # allUserEntries = document.querySelectorAll("#all-users > *")
-    # for userEntry,idx in allUserEntries
-    #     log "userEntry: #{idx}:#{userEntry.getAttribute("user-index")}"
-    #     userEntry.addEventListener("click", userEntryClicked)
     return
