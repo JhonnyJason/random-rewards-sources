@@ -1,7 +1,7 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("deletemodal")
+{log, olog} = createLogFunctions("rewardoptioneditmodal")
 #endregion
 
 ############################################################
@@ -14,22 +14,54 @@ import { ModalCore } from "./modalcore.js"
 core = null
 
 ############################################################
-messageTemplate = ""
-modalContent = null
+headerTitle = null
 
 ############################################################
 export initialize =  ->
     log "initialize"
-    core = new ModalCore(deletemodal)
+    core = new ModalCore(rewardoptioneditmodal)
     core.connectDefaultElements()
-    
-    messageTemplate = deletemodalMessageTemplate.innerHTML
-    modalContent = deletemodal.getElementsByClassName("modal-content")[0]
+
+    headerTitle = rewardoptioneditmodal.getElementsByClassName("modal-header-title")[0]    
     return
 
 ############################################################
-export userConfirmation = (cObj) ->
-    log "userConfirmation"
-    modalContent.innerHTML = M.render(messageTemplate, cObj) 
+export userEdit = (optionObj) ->
+    log "userEdit"
+
+    headerTitle.textContent = "Edit Reward Option"
+
+    ## user optionObj to fill inputs
+    rewardoptioneditmodalNameInput.value = optionObj.name
+    rewardoptioneditmodalWeightInput.value = optionObj.weight
+
+    ## show deleteButton
+    # rewardoptionseditmodalDeleteButton.classList.remove("hidden")
     core.activate()
-    return core.modalPromise
+    await core.modalPromise
+    
+    ## apply edits to optionObj
+    optionObj.name = rewardoptioneditmodalNameInput.value 
+    optionObj.weight =  parseInt(rewardoptioneditmodalWeightInput.value)
+
+    return optionObj
+
+export userCreate = ->
+    log "userCreate"
+
+    headerTitle.textContent = "New Reward Option"
+    ## clear inputs
+    rewardoptioneditmodalNameInput.value = ""
+    rewardoptioneditmodalWeightInput.value = 0
+
+    ## hide deleteButton
+    rewardoptionseditmodalDeleteButton.classList.add("hidden")
+
+    core.activate()
+    await  core.modalPromise
+    
+    ## apply edits to a new optionObj
+    optionObj = {}
+    optionObj.name = rewardoptioneditmodalNameInput.value 
+    optionObj.weight =  parseInt(rewardoptioneditmodalWeightInput.value)
+    return optionObj

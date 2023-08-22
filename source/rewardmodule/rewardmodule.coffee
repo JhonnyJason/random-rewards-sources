@@ -13,6 +13,7 @@ import * as S from "./statemodule.js"
 ############################################################
 import * as app from "./appcoremodule.js"
 import * as deletemodal from "./deletemodal.js"
+import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
 
 ############################################################
 #region DOM cache
@@ -88,8 +89,20 @@ export initialize = ->
 ############################################################
 addRewardOptionButtonClicked = (evnt) ->
     log "addRewardOptionButtonClicked"
-    ## TODO implement
+    index = this.getAttribute("reward-option-index")
+    if !editObj.options? then editObj.options = []
     
+    ## TODO send to edit function
+    # if !editObj.options[index]? then throw new Error("Option of index #{index} did not exist!")
+    # optionObj = editObj.options[]
+
+    try
+        optionObj = await rewardoptioneditModal.userCreate()
+        editObj.options.push(optionObj)
+        updateRewardOptions()
+    catch err
+        log err
+
     return
 
 configurationCancelClicked = (evnt) ->
@@ -143,6 +156,29 @@ rewardButtonClicked = (evnt) ->
     log rewardIndex
 
     app.selectReward(rewardIndex)
+    return
+
+############################################################
+updateRewardOptions = ->
+    log "updateRewardOptions"
+    totalWeight = 0 
+    rewardOptionsHTML = ""
+
+    rewardOptions = []
+    if editObj? and Array.isArray(editObj.options) then rewardOptions = editObj.options
+    
+    totalWeight += option.weight for option in rewardOptions
+        
+    for option,idx in rewardOptions
+        cObj = {}
+        cObj.name = option.name
+        cObj.weight = option.weight
+        cObj.index = idx
+        cObj.percent = Math.round(100 * (option.weight / totalWeight)) 
+        rewardOptionsHTML += M.render(rewardOptionTemplate, cObj)
+
+    rewardOptionsTotalWeight.textContent = "Total Weight: #{totalWeight}"
+    rewardOptionsContainer.innerHTML = rewardOptionsHTML
     return
 
 ############################################################
@@ -230,20 +266,7 @@ export prepareEditReward = (index) ->
     timeframeInput.value = editObj.timeframe
     frequencyInput.value = editObj.frequency
 
-    totalWeight = 0 
-    rewardOptionsHTML = ""
-
-    rewardOptions = editObj.options || []
-    for option,idx in rewardOptions
-        totalWeight += option.weight
-        cObj = {}
-        cObj.name = option.name
-        cObj.weight = option.weight
-        cObj.index = idx
-        rewardOptionsHTML += M.render(rewardOptionTemplate, cObj)
-
-    rewardOptionsTotalWeight.textContent = "Total Weight: #{totalWeight}"
-    rewardOptionsContainer.innerHTML = rewardOptionsHTML
+    updateRewardOptions()
 
     rewardconfigurationTitle.textContent = "Edit Reward"
 
