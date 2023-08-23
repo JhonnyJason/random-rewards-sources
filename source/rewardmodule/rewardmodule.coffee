@@ -14,6 +14,7 @@ import * as S from "./statemodule.js"
 import * as app from "./appcoremodule.js"
 import * as deletemodal from "./deletemodal.js"
 import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
+import * as optiondeleteModal from "./optiondeletemodal.js"
 
 ############################################################
 #region DOM cache
@@ -54,6 +55,7 @@ noRewards = true
 ############################################################
 editIndex = NaN
 editObj = null
+editOptions = null
 
 ############################################################
 export initialize = ->
@@ -85,20 +87,16 @@ export initialize = ->
     rewardOptionTemplate = rewardOptionTemplateElement.innerHTML
     return
 
-
 ############################################################
 addRewardOptionButtonClicked = (evnt) ->
     log "addRewardOptionButtonClicked"
-    index = this.getAttribute("reward-option-index")
-    if !editObj.options? then editObj.options = []
-    
-    ## TODO send to edit function
-    # if !editObj.options[index]? then throw new Error("Option of index #{index} did not exist!")
-    # optionObj = editObj.options[]
 
+    # if !editObj.options? then editObj.options = []
+    if !editOptions? then editOptions = []
+    
     try
         optionObj = await rewardoptioneditModal.userCreate()
-        editObj.options.push(optionObj)
+        editOptions.push(optionObj)
         updateRewardOptions()
     catch err
         log err
@@ -133,13 +131,16 @@ configurationSaveClicked = (evnt) ->
     log "configurationSaveClicked"
     evnt.preventDefault()
 
+    
     if editIndex == allRewards.length then allRewards.push(editObj)
 
     editObj.name = nameInput.value 
     editObj.condition = conditionTextarea.value
     editObj.timeframe = timeframeInput.value
     editObj.frequency = frequencyInput.value
-
+    
+    editObj.options = editOptions
+    
     # olog allRewards
 
     S.save("allRewards")
@@ -158,15 +159,49 @@ rewardButtonClicked = (evnt) ->
     app.selectReward(rewardIndex)
     return
 
+rewardOptionClicked = (evnt) ->
+    log "rewardOptionClicked"
+
+    index = this.parentNode.getAttribute("reward-option-index")
+
+    if !editOptions[index]? then throw new Error("Option of index #{index} did not exist!")
+    optionObj = editOptions[index]
+
+    try
+        optionObj = await rewardoptioneditModal.userEdit(optionObj)
+        updateRewardOptions()
+    catch err
+        log err
+
+    return
+
+rewardOptionDeleteClicked = (evnt) ->
+    log "rewardOptionDeleteClicked"
+
+    index = this.parentNode.getAttribute("reward-option-index")
+
+    if !editOptions[index]? then throw new Error("Option of index #{index} did not exist!")
+    optionObj = editOptions[index]
+
+    try
+        # await optiondeleteModal.userConfirmation(optionObj)
+        editOptions.splice(index, 1)
+        updateRewardOptions()
+    catch err
+        log err
+
+    return
+
 ############################################################
 updateRewardOptions = ->
     log "updateRewardOptions"
     totalWeight = 0 
     rewardOptionsHTML = ""
 
-    rewardOptions = []
-    if editObj? and Array.isArray(editObj.options) then rewardOptions = editObj.options
-    
+    # rewardOptions = []
+    # if editObj? and Array.isArray(editObj.options) then rewardOptions = editObj.options
+    rewardOptions = editOptions || []
+
     totalWeight += option.weight for option in rewardOptions
         
     for option,idx in rewardOptions
@@ -174,11 +209,22 @@ updateRewardOptions = ->
         cObj.name = option.name
         cObj.weight = option.weight
         cObj.index = idx
-        cObj.percent = Math.round(100 * (option.weight / totalWeight)) 
+        if totalWeight == 0 then cObj.percent = 100
+        else cObj.percent = Math.round(100 * (option.weight / totalWeight)) 
+        
         rewardOptionsHTML += M.render(rewardOptionTemplate, cObj)
 
     rewardOptionsTotalWeight.textContent = "Total Weight: #{totalWeight}"
     rewardOptionsContainer.innerHTML = rewardOptionsHTML
+    
+    ## Add EventListeners
+    rewardOptionElements = rewardOptionsContainer.getElementsByClassName("reward-option")
+    for el in rewardOptionElements
+        el.addEventListener("click", rewardOptionClicked) 
+
+    rewardOptionDeleteButtons = rewardOptionsContainer.getElementsByClassName("reward-option-delete-button")
+    for el in rewardOptionDeleteButtons
+        el.addEventListener("click", rewardOptionDeleteClicked) 
     return
 
 ############################################################
@@ -229,6 +275,8 @@ resetConfiguration = ->
     #reset internal state
     editIndex = NaN
     editObj = null
+    editOptions = null
+
     #more internal state?
 
     # Resetting UI state
@@ -250,6 +298,7 @@ export prepareEditNewReward = ->
     
     editIndex = allRewards.length
     editObj = {}
+    editOptions = []
 
     rewardconfigurationTitle.textContent = "New Reward"
     return
@@ -260,6 +309,7 @@ export prepareEditReward = (index) ->
     editIndex = index
 
     editObj = allRewards[index]
+    editOptions = JSON.parse(JSON.stringify(editObj.options))
 
     nameInput.value = editObj.name
     conditionTextarea.value = editObj.condition

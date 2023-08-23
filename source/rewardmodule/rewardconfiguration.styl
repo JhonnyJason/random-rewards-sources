@@ -18,10 +18,12 @@ editframe-edit-icon-size = 25px
  Edit Frame Header Styles
 ==========================================================*/
     .editframe-header
-        position: relative
+        position: absolute
         width 100%
         height: editframe-header-height
         box-shadow: 0 0 5px 0 alpha(black, 0.2)
+        background-color: alpha(#fff, 0.6)
+        z-index 5
 
         .editframe-cancel-button
             position: absolute
@@ -49,13 +51,13 @@ editframe-edit-icon-size = 25px
 ==========================================================*/
     .editframe-container
         width 100%
-        height "calc(100% - %s)" % editframe-header-height
-        // height 100%
+        // height "calc(100% - %s)" % editframe-header-height
+        height 100%
         overflow-y auto
         overflow-x hidden
-        padding 30px
-        padding-bottom 40px
+        padding (30px + editframe-header-height) 30px (30px + editframe-footer-height) 30px
         box-sizing: border-box
+        z-index 1
 
     .editframe-edit-item
         max-width: 420px
@@ -90,6 +92,9 @@ editframe-edit-icon-size = 25px
         color cd-darkblue
         margin-bottom 12px
 
+    .reward-option-outer-container
+        margin-bottom 12px
+
     .reward-option
         position relative
         display block
@@ -98,16 +103,33 @@ editframe-edit-icon-size = 25px
         padding 15px
         box-sizing: border-box
         border-radius 3px
-        margin-bottom 12px
         // line-height: 30px
+        background-color: white
         box-shadow: 0 0 5px 0 alpha(#000, 0.2)
+        cursor pointer
+        z-index: 2
 
         .editframe-edit-icon
             height 20px
             width 20px
             top 15px
             right 15px
-        
+
+    .reward-option-delete-button
+        position: relative
+        top -3px
+        display: block
+        width 80px
+        padding-top 10px
+        padding-bottom 7px
+        box-sizing: border-box
+        background-color cd-red
+        color #fff
+        border-radius: 0 0 3px 3px
+        text-align: center
+        margin-right auto
+        z-index 1
+
     .reward-option-name
         color cd-blue
         margin-bottom 12px
@@ -144,6 +166,9 @@ editframe-edit-icon-size = 25px
         left 0
         width 100%
         height: editframe-footer-height
+        box-shadow: 0 0 5px 0 alpha(black, 0.2)
+        background-color: alpha(#fff, 0.6)
+        z-index: 5
 
         .editframe-save-button
             position: absolute

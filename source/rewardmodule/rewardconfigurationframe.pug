@@ -1,12 +1,14 @@
 .hidden-templates
     #reward-option-template
-        .reward-option(reward-option-index="{{{index}}}")
-            .editframe-edit-icon: svg: use(href="#svg-edit-icon")
-            .reward-option-name {{{name}}}
-            .reward-option-weight-line
-                .reward-option-weight Weight: {{{weight}}}
-                .reward-option-percent {{{percent}}}%
-
+        .reward-option-outer-container(reward-option-index="{{{index}}}")
+            .reward-option.click-button
+                .editframe-edit-icon: svg: use(href="#svg-edit-icon")
+                .reward-option-name {{{name}}}
+                .reward-option-weight-line
+                    .reward-option-weight Weight: {{{weight}}}
+                    .reward-option-percent {{{percent}}}%
+            .reward-option-delete-button.click-button Delete
+            
 form#rewardconfigurationframe
     .editframe-header
         button.editframe-cancel-button.click-button Cancel

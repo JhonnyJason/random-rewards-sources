@@ -16,7 +16,6 @@ indexdomconnect.initialize = () ->
     global.rewardoptioneditmodal = document.getElementById("rewardoptioneditmodal")
     global.rewardoptioneditmodalNameInput = document.getElementById("rewardoptioneditmodal-name-input")
     global.rewardoptioneditmodalWeightInput = document.getElementById("rewardoptioneditmodal-weight-input")
-    global.rewardoptionseditmodalDeleteButton = document.getElementById("rewardoptionseditmodal-delete-button")
     global.logoutmodal = document.getElementById("logoutmodal")
     global.optiondeletemodal = document.getElementById("optiondeletemodal")
     global.deletemodalMessageTemplate = document.getElementById("deletemodal-message-template")

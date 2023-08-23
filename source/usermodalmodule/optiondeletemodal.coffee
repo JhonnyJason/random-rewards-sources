@@ -23,5 +23,6 @@ export initialize =  ->
 ############################################################
 export userConfirmation = (cObj) ->
     log "userConfirmation"
+    ## TODO use name for sensitive warning
     core.activate()
     return core.modalPromise

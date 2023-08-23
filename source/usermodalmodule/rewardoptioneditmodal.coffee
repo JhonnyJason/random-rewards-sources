@@ -35,15 +35,16 @@ export userEdit = (optionObj) ->
     rewardoptioneditmodalNameInput.value = optionObj.name
     rewardoptioneditmodalWeightInput.value = optionObj.weight
 
-    ## show deleteButton
-    # rewardoptionseditmodalDeleteButton.classList.remove("hidden")
     core.activate()
     await core.modalPromise
     
     ## apply edits to optionObj
-    optionObj.name = rewardoptioneditmodalNameInput.value 
+    optionObj.name = rewardoptioneditmodalNameInput.value
     optionObj.weight =  parseInt(rewardoptioneditmodalWeightInput.value)
 
+    if optionObj.name == "" then optionObj.name = "Unnamed"
+    if !optionObj.weight then optionObj.weight = 0
+    
     return optionObj
 
 export userCreate = ->
@@ -54,9 +55,6 @@ export userCreate = ->
     rewardoptioneditmodalNameInput.value = ""
     rewardoptioneditmodalWeightInput.value = 0
 
-    ## hide deleteButton
-    rewardoptionseditmodalDeleteButton.classList.add("hidden")
-
     core.activate()
     await  core.modalPromise
     
@@ -64,4 +62,8 @@ export userCreate = ->
     optionObj = {}
     optionObj.name = rewardoptioneditmodalNameInput.value 
     optionObj.weight =  parseInt(rewardoptioneditmodalWeightInput.value)
+
+    if optionObj.name == "" then optionObj.name = "Unnamed"
+    if !optionObj.weight then optionObj.weight = 0
+
     return optionObj
