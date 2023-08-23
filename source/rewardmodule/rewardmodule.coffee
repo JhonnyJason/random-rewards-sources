@@ -309,7 +309,8 @@ export prepareEditReward = (index) ->
     editIndex = index
 
     editObj = allRewards[index]
-    editOptions = JSON.parse(JSON.stringify(editObj.options))
+    if editObj.options? then editOptions = JSON.parse(JSON.stringify(editObj.options))
+    else editOptions = []
 
     nameInput.value = editObj.name
     conditionTextarea.value = editObj.condition
