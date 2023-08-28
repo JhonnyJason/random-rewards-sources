@@ -11,21 +11,55 @@ import * as S from "./statemodule.js"
 import * as contentModule from "./contentmodule.js"
 import * as rewardModule from "./rewardmodule.js"
 
+
+############################################################
+startUpProcessed = false
+
+############################################################
+appUIBaseState = "no-rewards"
+appUIModfier = "none"
+
 ############################################################
 export initialize = ->
     log "initialize"
-    #Implement or Remove :-)
+    S.addOnChangeListener("navState", navStateChanged)
     return
 
 
 ############################################################
-export startUp = ->
+startUp = ->
     log "startUp"
     # update everything which needs date from allRewards
     S.callOutChange("allRewards")
-    
     goHome()
+    startUpProcessed = true
     return
+
+navStateChanged = ->
+    ## prod log "navStateChanged"
+    {base, modifier} = S.get("navState")
+    olog { base, modifier }
+
+    if !startUpProcessed then await startUp()
+
+    ########################################
+    # Apply States
+    setAppState(base, modifier)
+    # switch base
+    #     when "" then setAppState(base, modifier)
+    #     when "" then setAppState(base, modifier)
+    
+    return
+
+setAppState = (base, mod) ->
+    ## prod log "setAppState"
+    if base then appUIBaseState = base
+    if mod then appUIModfier = mod
+
+    ## prod log "#{appUIBaseState}:#{appUIModfier}"
+    S.set("uiState", "#{appUIBaseState}:#{appUIModfier}")
+    return
+
 
 ############################################################
 #region menu called functions
