@@ -156,7 +156,7 @@ rewardButtonClicked = (evnt) ->
     rewardIndex = el.getAttribute("reward-index")
     log rewardIndex
 
-    app.selectReward(rewardIndex)
+    app.triggerRewardSelection(rewardIndex)
     return
 
 rewardOptionClicked = (evnt) ->

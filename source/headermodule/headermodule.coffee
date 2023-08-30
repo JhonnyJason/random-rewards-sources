@@ -5,8 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as content from "./contentmodule.js"
-import * as menuModule from "./menumodule.js"
+import * as app from "./appcoremodule.js"
 
 ############################################################
 appLogo = document.getElementById("app-logo")
@@ -24,17 +23,17 @@ export initialize = ->
 ############################################################
 appLogoClicked = ->
     log "appLogoClicked"
-    ## TODO: implement
+    app.triggerHome()
     return
 
 menuButtonClicked = ->
     log "menuButtonClicked"
-    menuModule.setMenuOn()
+    app.triggerMenu(true)
     return
 
 menuCloseButtonClicked = ->
     log "menuCloseButtonClicked"
-    menuModule.setMenuOff()
+    app.triggerMenu(false)
     return
 
 

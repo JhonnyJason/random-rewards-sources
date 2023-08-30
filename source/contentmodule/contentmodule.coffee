@@ -69,7 +69,7 @@ resetAllStateClasses = ->
     return
     
 ############################################################
-#region State Setter Functions
+#region UI State Manipulation
 export setStateToWelcome = ->
     log "setStateToWelcome"
     resetAllStateClasses()

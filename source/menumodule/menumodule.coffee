@@ -12,8 +12,6 @@ import * as S from "./statemodule.js"
 
 ############################################################
 import * as app from "./appcoremodule.js"
-import * as logoutmodal from "./logoutmodal.js"
-import * as rewardModule from "./rewardmodule.js"
 
 ############################################################
 menuHome = document.getElementById("menu-home")
@@ -34,20 +32,54 @@ export initialize = ->
     menuAddReward.addEventListener("click", addRewardClicked)
     menuLogout.addEventListener("click", logoutClicked)
     menu.addEventListener("click", setMenuOff)
-    
-    S.addOnChangeListener("allRewards", rewardsChanged)
     return
 
 ############################################################
-#region event Listeners
+#region Event Listeners
 
 ############################################################
-rewardsChanged = ->
-    log "rewardsChanged"
-    allRewards = S.get("allRewards")
-    
-    # olog allRewards
+rewardEntryClicked = (evnt) ->
+    log "rewardEntryClicked"
+    el = evnt.currentTarget
+    rewardIndex = el.getAttribute("reward-index")
+    log rewardIndex
+    app.triggerRewardConfiguration(rewardIndex)
 
+    # {activeAccount} = accountModule.getAccountsInfo()
+    # userIndex = parseInt(userIndex)
+
+    # if userIndex == activeAccount then contentModule.setToUserImagesState()
+
+    # accountModule.setAccountActive(userIndex) unless userIndex == NaN
+    return
+
+menuHomeClicked = (evnt) ->
+    log "menuHomeClicked"
+    app.triggerHome()
+    return
+
+menuAccountClicked = (evnt) ->
+    log "menuAccountClicked"
+    app.triggerAccountConfiguration()
+    return
+
+addRewardClicked = (evnt) ->
+    log "addRewardClicked"
+    app.triggerRewardCreation()
+    return
+
+logoutClicked = (evnt) ->
+    log "logoutClicked"
+    app.triggerLogout()
+    return
+
+#endregion
+
+############################################################
+export updateRewards = ->
+    log "updateRewards"
+    allRewards = S.get("allRewards")
+    olog allRewards
 
     if !Array.isArray(allRewards) or allRewards.length == 0
         menuAllRewards.innerHTML = ""
@@ -73,51 +105,7 @@ rewardsChanged = ->
     return
 
 ############################################################
-rewardEntryClicked = (evnt) ->
-    log "rewardEntryClicked"
-    el = evnt.currentTarget
-    rewardIndex = el.getAttribute("reward-index")
-    log rewardIndex
-    app.configureReward(rewardIndex)
-
-    # {activeAccount} = accountModule.getAccountsInfo()
-    # userIndex = parseInt(userIndex)
-
-    # if userIndex == activeAccount then contentModule.setToUserImagesState()
-
-    # accountModule.setAccountActive(userIndex) unless userIndex == NaN
-    return
-
-menuHomeClicked = (evnt) ->
-    log "menuHomeClicked"
-    app.goHome()
-    # setMenuOff()
-    return
-
-menuAccountClicked = (evnt) ->
-    log "menuAccountClicked"
-    app.configureAccount()
-    # setMenuOff()
-    return
-
-addRewardClicked = (evnt) ->
-    log "addRewardClicked"
-    app.createNewReward()
-    # setMenuOff()
-    return
-
-logoutClicked = (evnt) ->
-    log "logoutClicked"
-    try
-        await logoutmodal.userConfirmation()
-        log "LogoutModal.userConfirmation() succeeded!"
-        app.logout()
-    catch err then log err
-    return
-
-#endregion
-
-############################################################
+#region UI State Manipulation
 export setMenuOff = ->
     document.body.classList.remove("menu-on")
     return
@@ -126,3 +114,5 @@ export setMenuOff = ->
 export setMenuOn = ->
     document.body.classList.add("menu-on")
     return
+
+#endregion

@@ -42,6 +42,25 @@ applyUIState = ->
 
 ############################################################
 #region applyState functions
-applyState["no-rewards:none"]
+applyState["no-rewards:none"] = ->
+    content.setStateToWelcome()
+    menu.setMenuOff()
+    return
+
+applyState["no-rewards:menu"] = ->
+    content.setStateToWelcome()
+    menu.setMenuOn()
+    return
+
+applyState["many-rewards:none"] = ->
+    content.setStateToRewardsList()
+    menu.setMenuOff()
+    return
+
+applyState["many-rewards:menu"] = ->
+    content.setStateToRewardsList()
+    menu.setMenuOn()
+    return
+
 
 #endregion

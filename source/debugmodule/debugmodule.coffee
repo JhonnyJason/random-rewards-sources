@@ -7,9 +7,9 @@ export modulesToDebug = {
     # configmodule: true
     # contentmodule: true
     # errorfeedbackmodule: true
-    # menumodule: true
-    rewardmodule: true
-    rewardoptioneditmodal: true
+    menumodule: true
+    # rewardmodule: true
+    # rewardoptioneditmodal: true
     # utilmodule: true
 
 }
