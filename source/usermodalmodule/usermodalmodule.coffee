@@ -5,16 +5,22 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as logoutModal from "./logoutmodal.js"
+#region Specific Modals imported
+
 import * as deleteModal from "./deletemodal.js"
+import * as judgeModal from "./judgemodal.js"
+import * as logoutModal from "./logoutmodal.js"
 import * as optiondeleteModal from "./optiondeletemodal.js"
-import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
+import * as optioneditmodal from "./optioneditmodal.js"
+
+#endregion
 
 ############################################################
 export initialize = ->
     log "initialize"
     deleteModal.initialize()
-    optiondeleteModal.initialize()
+    judgeModal.initialize()
     logoutModal.initialize()
-    rewardoptioneditModal.initialize()
+    optiondeleteModal.initialize()
+    optioneditmodal.initialize()
     return

@@ -41,9 +41,9 @@ export initialize = ->
 rewardEntryClicked = (evnt) ->
     log "rewardEntryClicked"
     el = evnt.currentTarget
-    rewardIndex = el.getAttribute("reward-index")
-    log rewardIndex
-    app.triggerRewardConfiguration(rewardIndex)
+    editIndex = el.getAttribute("reward-index")
+    log editIndex
+    app.triggerRewardConfiguration({editIndex})
 
     # {activeAccount} = accountModule.getAccountsInfo()
     # userIndex = parseInt(userIndex)

@@ -13,7 +13,7 @@ import * as S from "./statemodule.js"
 ############################################################
 import * as app from "./appcoremodule.js"
 import * as deletemodal from "./deletemodal.js"
-import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
+import * as optioneditmodal from "./optioneditmodal.js"
 import * as optiondeleteModal from "./optiondeletemodal.js"
 
 ############################################################
@@ -90,38 +90,22 @@ addRewardOptionButtonClicked = (evnt) ->
 
     # if !editObj.options? then editObj.options = []
     if !editOptions? then editOptions = []
-    
-    try
-        optionObj = await rewardoptioneditModal.userCreate()
-        editOptions.push(optionObj)
-        updateRewardOptions()
-    catch err
-        log err
 
+    context = {editObj, editIndex}
+    app.triggerRewardOptionEdit(context)
     return
 
 configurationCancelClicked = (evnt) ->
     log "configurationCancelClicked"
     evnt.preventDefault()
     resetConfiguration()
-    app.goHome()
+    app.triggerHome()
     return
 
 configurationDeleteClicked = (evnt) ->
     log "configurationDeleteClicked"
     evnt.preventDefault()
-
-    try
-        cObj = {}
-        cObj.label = editObj.name
-        await deletemodal.userConfirmation(cObj)
-        log "DeleteModal.userConfirmation() succeeded!"
-
-        deleteReward(editIndex)
-        resetConfiguration()
-        app.goHome()
-
-    catch err then log err
+    app.triggerRewardDeletion({ editObj, editIndex })
     return
 
 configurationSaveClicked = (evnt) ->
@@ -143,7 +127,7 @@ configurationSaveClicked = (evnt) ->
     S.save("allRewards")
     S.callOutChange("allRewards")
     resetConfiguration()
-    app.goHome()
+    app.triggerHome()
     return
 
 ############################################################
@@ -163,13 +147,10 @@ rewardOptionClicked = (evnt) ->
 
     if !editOptions[index]? then throw new Error("Option of index #{index} did not exist!")
     optionObj = editOptions[index]
+    optionIndex = index
 
-    try
-        optionObj = await rewardoptioneditModal.userEdit(optionObj)
-        updateRewardOptions()
-    catch err
-        log err
-
+    context = {editObj, editIndex, optionObj, optionIndex}
+    app.triggerRewardOptionEdit(context)
     return
 
 rewardOptionDeleteClicked = (evnt) ->
@@ -247,7 +228,7 @@ export updateRewardsList = ->
 
 ############################################################
 deleteReward = (index) ->
-    log "deleteReward"
+    log "deleteReward #{index}"
     if index >= allRewards.length then throw new Error("deleteReward: Index out of bounds!")
 
     deleteSelected = allRewards[index] == selectedReward
@@ -301,7 +282,7 @@ export prepareEditNewReward = ->
     return
 
 export prepareEditReward = (index) ->
-    log "prepareEditReward"
+    log "prepareEditReward #{index}"
     
     if index >= allRewards.length then throw new Error("prepareEditReward: Index out of bounds!")
     editIndex = index
@@ -325,6 +306,8 @@ export prepareEditReward = (index) ->
 ############################################################
 export deleteAll = ->
     log "deleteAll"
+    resetConfiguration()
+
     allRewards = []
     selectedReward = null
     S.set("selectedReward", null)
@@ -332,6 +315,29 @@ export deleteAll = ->
     noRewards = true
 
     S.save("allRewards", allRewards)
+    return
+
+############################################################
+export finalizeDeletion = ->
+    log "finalizeDeletion"
+    deleteReward(editIndex)
+    resetConfiguration()
+    return
+
+############################################################
+export addNewRewardOption = (optionObj) ->
+    log "addNewRewardOption"
+    editOptions.push(optionObj)
+    updateRewardOptions()
+    return
+
+export finalizeRewardOptionEdit = (index, optionObj) ->
+    log "finalizeRewardOptionEdit"
+
+    if !editOptions[index]? then throw new Error("Option of index #{index} did not exist!")
+
+    editOptions[index] = optionObj
+    updateRewardOptions()
     return
 
 ############################################################

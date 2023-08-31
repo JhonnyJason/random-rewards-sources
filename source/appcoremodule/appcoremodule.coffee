@@ -16,6 +16,13 @@ import * as menuModule from "./menumodule.js"
 import * as contentModule from "./contentmodule.js"
 import * as rewardModule from "./rewardmodule.js"
 
+############################################################
+import * as deleteModal from "./deletemodal.js"
+import * as judgeModal from "./judgemodal.js"
+import * as logoutModal from "./logoutmodal.js"
+import * as optiondeleteModal from "./optiondeletemodal.js"
+import * as optioneditModal from "./optioneditmodal.js"
+
 #endregion
 
 ############################################################
@@ -43,9 +50,8 @@ export initialize = ->
 ############################################################
 #region Event Listeners
 
-############################################################
 navStateChanged = ->
-    ## prod log "navStateChanged"
+    log "navStateChanged"
     navState = S.get("navState")
     olog navState
     baseState = navState.base
@@ -57,13 +63,21 @@ navStateChanged = ->
     ########################################
     switch baseState
         when "RootState" then baseState = appUIRootState
-        when "configure-reward" 
-            if typeof context == "number" then rewardModule.prepareEditReward(context)
-            else rewardModule.prepareEditNewReward()
+        when "configure-reward"
+            if context? then index = parseInt(context.editIndex)
+            else index = NaN
+            if Number.isNaN(index) then rewardModule.prepareEditNewReward()
+            else rewardModule.prepareEditReward(index)
         # when "configure-account" then ##TODO
+        
 
-    if modifier == "logoutconfirmation" then startConfirmLogoutProcess()
-    
+    switch modifier
+        when "logoutconfirmation" then startConfirmLogoutProcess()
+        when "deleteconfirmation" then startRewardDeletionProcess(context)
+        when "editoption"
+            if context.optionObj? then startRewardOptionEditProcess(context)
+            else startRewardOptionAddProcess(context)
+
     ########################################
     setAppState(baseState, modifier)    
     return
@@ -125,10 +139,60 @@ updateUIData = ->
 startConfirmLogoutProcess = ->
     log "startConfirmLogoutProcess"
     try
-        await logoutmodal.userConfirmation()
+        setAppState("", "logoutconfirmation")
+        await logoutModal.userConfirmation()
         rewardModule.deleteAll()
         triggerHome()
+    catch err #then await nav.unmodify()
+        log err
+        await nav.unmodify()
+    return
+
+startRewardDeletionProcess = (context) ->
+    log "startRewardDeletionProcess"
+    try
+        cObj = {}
+        cObj.label = context.editObj.name
+        setAppState("", "deleteconfirmation")
+        await deleteModal.userConfirmation(cObj)
+        rewardModule.finalizeDeletion()
+        triggerHome()
+
+    catch err #then await nav.unmodify()
+        log err
+        await nav.unmodify()
+    return
+
+startRewardOptionAddProcess = ->
+    log "startRewardOptionAddProcess"
+    try  
+        setAppState("", "editoption")   
+        optionObj = await optioneditModal.userCreate()
+        rewardModule.addNewRewardOption(optionObj)
     catch err then log err
+    finally await nav.unmodify()
+    return
+
+startRewardOptionEditProcess = (context) ->
+    log "startRewardOptionEditProcess"
+    index = parseInt(context.optionIndex)
+    if Number.isNaN(index) then throw new Error("on startRewardOptionEditProcess: optionIndex isNaN!")
+    try  
+        setAppState("", "editoption")   
+        optionObj = await optioneditModal.userEdit(context.optionObj)
+        rewardModule.finalizeRewardOptionEdit(index, optionObj)
+    catch err then log err
+    finally await nav.unmodify()
+    return
+
+startRewardOptionAddProcess = (context) ->
+    log "startRewardOptionAddProcess"
+    try  
+        setAppState("", "editoption")   
+        optionObj = await optioneditModal.userCreate()
+        rewardModule.addNewRewardOption(optionObj)
+    catch err then log err
+    finally await nav.unmodify()
     return
 
 #endregion
@@ -177,6 +241,16 @@ export triggerRewardCreation = ->
 export triggerRewardConfiguration = (index) ->
     log "triggerRewardConfiguration"
     await nav.addStateNavigation("configure-reward", index)    
+    return
+
+export triggerRewardDeletion = (rewardContext) ->
+    log "triggerRewardDeletion"
+    await nav.addModification("deleteconfirmation", rewardContext)
+    return
+
+export triggerRewardOptionEdit = (rewardOptionContext) ->
+    log "triggerRewardOptionEdit"
+    await nav.addModification("editoption", rewardOptionContext)    
     return
 
 export triggerRewardSelection = (index) ->

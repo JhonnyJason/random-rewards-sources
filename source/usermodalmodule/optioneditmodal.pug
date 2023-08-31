@@ -1,0 +1,20 @@
+//- usermodal structure
+
+#optioneditmodal.usermodal
+    .click-catcher
+    .modal-container
+        .modal-header 
+            h2.modal-header-title
+            .modal-close-button.click-button: svg: use(href="#svg-cross-icon")
+        .modal-content 
+            #optioneditmodal-name
+                label(for="optioneditmodal-name-input") Name
+                    .edit-icon: svg: use(href="#svg-edit-icon")  
+                input#optioneditmodal-name-input(name="inputrewardoptioneditmodal-name" placeholder="Type name..." type="text")
+            #optioneditmodal-weight
+                label(for="optioneditmodal-weight-input") Weight
+                    .edit-icon: svg: use(href="#svg-edit-icon")  
+                input#optioneditmodal-weight-input(name="#optioneditmodal-weight" placeholder="Type name..." type="number")
+        .modal-actions
+            button.modal-accept-button.click-button Okay
+            button.modal-cancel-button.click-button Cancel

@@ -25,14 +25,12 @@ export initialize = ->
     log "initialize"
     addNewRewardButton.addEventListener("click", addNewRewardClicked)
     mainElement.addEventListener("click", contentClicked)
-
-    # setStateToWelcome()
     return
 
 ############################################################
 addNewRewardClicked = (evnt) ->
     log "addNewRewardClicked"
-    app.createNewReward()
+    app.triggerRewardCreation()
     return
 
 contentClicked = (evnt) ->
@@ -70,6 +68,7 @@ resetAllStateClasses = ->
     
 ############################################################
 #region UI State Manipulation
+
 export setStateToWelcome = ->
     log "setStateToWelcome"
     resetAllStateClasses()
@@ -84,6 +83,11 @@ export setStateToRewardsList = ->
 
     currentState = "rewards-list"
     mainElement.classList.add(currentState)
+    return
+
+export setStateOneReward = ->
+    log "setStateOneReward"
+    resetAllStateClasses()
     return
 
 export setStateToRewardInactive = ->

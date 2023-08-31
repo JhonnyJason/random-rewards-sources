@@ -16,7 +16,7 @@ import * as deleteModal from "./deletemodal.js"
 import * as judgeModal from "./judgemodal.js"
 import * as logoutModal from "./logoutmodal.js"
 import * as optiondeleteModal from "./optiondeletemodal.js"
-import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
+import * as optioneditModal from "./optioneditmodal.js"
 
 #endregion
 
@@ -50,9 +50,14 @@ applyUIState = ->
     return
 
 ############################################################
+#region Base State Application Functions
 
 applyBaseState["no-rewards"] = ->
     content.setStateToWelcome()
+    return
+
+applyBaseState["one-reward"] = ->
+    content.setStateOneReward()
     return
 
 applyBaseState["many-rewards"] = ->
@@ -63,18 +68,103 @@ applyBaseState["configure-reward"] = ->
     content.setStateToConfigureReward()    
     return
 
+#endregion
+
 ############################################################
+#region Modifier Application Functions
+
 applyModifier["none"] = ->
+    ## OFF
     menu.setMenuOff()
-    ## TODO add handle for modals
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    judgeModal.turnDownModal("uistate-change")
+    logoutModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
     return
 
 applyModifier["menu"] = ->
+    ## ON
     menu.setMenuOn()
-    ## TODO add handle for modals
+
+    ## OFF
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    judgeModal.turnDownModal("uistate-change")
+    logoutModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
+    return
+
+############################################################
+#region Modal Modifiers
+
+applyModifier["deleteconfirmation"] = ->
+    ## ON
+    deleteModal.turnUpModal()
+    
+    ## OFF
+    menu.setMenuOff()
+    # Modals
+    judgeModal.turnDownModal("uistate-change")
+    logoutModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
+    return
+
+applyModifier["judgement"] = ->
+    ## ON
+    logoutModal.turnDownModal("uistate-change")
+    judgeModal.turnUpModal()
+    
+    ## OFF
+    menu.setMenuOff()
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
     return
 
 applyModifier["logoutconfirmation"] = ->
+    ## ON
+    logoutModal.turnUpModal()
+    
+    ## OFF
     menu.setMenuOff()
-    ## TODO add handle for modals
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    judgeModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
     return
+
+applyModifier["optiondeleteconfirmation"] = ->
+    ## ON
+    optiondeleteModal.turnUpModal()
+    
+    ## OFF
+    menu.setMenuOff()
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    judgeModal.turnDownModal("uistate-change")
+    logoutModal.turnDownModal("uistate-change")
+    optioneditModal.turnDownModal("uistate-change")
+    return
+
+applyModifier["editoption"] = ->
+    ## ON
+    optioneditModal.turnUpModal()
+    
+    ## OFF
+    menu.setMenuOff()
+    # Modals
+    deleteModal.turnDownModal("uistate-change")
+    judgeModal.turnDownModal("uistate-change")
+    logoutModal.turnDownModal("uistate-change")
+    optiondeleteModal.turnDownModal("uistate-change")
+    return
+
+#endregion
+
+#endregion
