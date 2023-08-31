@@ -55,14 +55,17 @@ navStateChanged = ->
     if !startUpProcessed then await startUp()
 
     ########################################
-    if baseState == "RootState" then baseState = appUIRootState
+    switch baseState
+        when "RootState" then baseState = appUIRootState
+        when "configure-reward" 
+            if typeof context == "number" then rewardModule.prepareEditReward(context)
+            else rewardModule.prepareEditNewReward()
+        # when "configure-account" then ##TODO
 
-    setAppState(baseState, modifier)
-
-    # switch base
-    #     when "" then setAppState(base, modifier)
-    #     when "" then setAppState(base, modifier)
+    if modifier == "logoutconfirmation" then startConfirmLogoutProcess()
     
+    ########################################
+    setAppState(baseState, modifier)    
     return
 
 ############################################################
@@ -91,6 +94,7 @@ setAppState = (base, mod) ->
 startUp = ->
     log "startUp"
     determineRootState()
+    updateUIData()
     ## Check: is there more to be done here?
     startUpProcessed = true
     return
@@ -114,7 +118,17 @@ determineRootState = ->
 updateUIData = ->
     log "updateUIData"
     menuModule.updateRewards()
-    
+    rewardModule.updateRewardsList()
+    return
+
+############################################################
+startConfirmLogoutProcess = ->
+    log "startConfirmLogoutProcess"
+    try
+        await logoutmodal.userConfirmation()
+        rewardModule.deleteAll()
+        triggerHome()
+    catch err then log err
     return
 
 #endregion
@@ -124,7 +138,7 @@ updateUIData = ->
 
 export triggerHome = ->
     log "triggerHome"
-    setAppState(appUIRootState, "none")
+    # setAppState(appUIRootState, "none")
     await nav.backToRoot()
     # rewardInfo = rewardModule.getInfo()
     # if rewardInfo.allRewards.length > 0 then 
@@ -152,38 +166,28 @@ export triggerMenu = (menuOn) ->
 ############################################################
 export triggerAccountConfiguration = ->
     log "triggerAccountConfiguration"
-    contentModule.setStateToConfigureAccount()
+    await nav.addStateNavigation("configure-account")
     return
 
 export triggerRewardCreation = ->
     log "triggerRewardCreation"
-    rewardModule.prepareEditNewReward()    
-    contentModule.setStateToConfigureReward()
+    await nav.addStateNavigation("configure-reward")    
     return
 
 export triggerRewardConfiguration = (index) ->
     log "triggerRewardConfiguration"
-    rewardModule.prepareEditReward(index)
-    contentModule.setStateToConfigureReward()
+    await nav.addStateNavigation("configure-reward", index)    
     return
 
 export triggerRewardSelection = (index) ->
     log "triggerRewardSelection"
-    ## TODO implement
+    # await nav.addStateNavigation("-reward")##TODO
     return
 
 ############################################################
 export triggerLogout = ->
     log "triggerLogout"
-    try
-        await logoutmodal.userConfirmation()
-        log "LogoutModal.userConfirmation() succeeded!"
-        app.logout()
-    catch err then log err
-
-    # Notice: here we already checked if the user really wants to log out
-    rewardModule.deleteAll()
-    contentModule.setStateToWelcome()
+    await nav.addModification("logoutconfirmation")
     return
 
 

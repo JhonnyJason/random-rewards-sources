@@ -21,7 +21,8 @@ import * as rewardoptioneditModal from "./rewardoptioneditmodal.js"
 #endregion
 
 ############################################################
-applyState = {}
+applyBaseState = {}
+applyModifier = {}
 
 ############################################################
 export initialize = ->
@@ -33,34 +34,47 @@ export initialize = ->
 applyUIState = ->
     ## prod log "applyUIState"
     uiState = S.get("uiState")
-    applyFunction = applyState[uiState]
-    if typeof applyFunction == "function" then return applyFunction()
-         
-    # ## prod log "on applyUIState: uiState '#{uiState}' did not have an apply function!"
-    throw new Error("on applyUIState: uiState '#{uiState}' did not have an apply function!")
+
+    tokens = uiState.split(":")
+    base = tokens[0]
+    modifier = tokens[1]
+
+    applyBaseFunction = applyBaseState[base]
+    applyModifierFunction = applyModifier[modifier]
+
+    if typeof applyBaseFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' base '#{base}' did not have an apply function!")
+    if typeof applyModifierFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' modifier '#{modifier}' did not have an apply function!")
+
+    applyBaseFunction()
+    applyModifierFunction()
     return
 
 ############################################################
-#region applyState functions
-applyState["no-rewards:none"] = ->
+
+applyBaseState["no-rewards"] = ->
     content.setStateToWelcome()
-    menu.setMenuOff()
     return
 
-applyState["no-rewards:menu"] = ->
-    content.setStateToWelcome()
-    menu.setMenuOn()
-    return
-
-applyState["many-rewards:none"] = ->
+applyBaseState["many-rewards"] = ->
     content.setStateToRewardsList()
+    return
+
+applyBaseState["configure-reward"] = ->
+    content.setStateToConfigureReward()    
+    return
+
+############################################################
+applyModifier["none"] = ->
     menu.setMenuOff()
+    ## TODO add handle for modals
     return
 
-applyState["many-rewards:menu"] = ->
-    content.setStateToRewardsList()
+applyModifier["menu"] = ->
     menu.setMenuOn()
+    ## TODO add handle for modals
     return
 
-
-#endregion
+applyModifier["logoutconfirmation"] = ->
+    menu.setMenuOff()
+    ## TODO add handle for modals
+    return

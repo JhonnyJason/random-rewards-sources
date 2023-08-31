@@ -75,9 +75,6 @@ export initialize = ->
 
     addRewardOptionButton.addEventListener("click", addRewardOptionButtonClicked)
 
-    # connect updateRewardsList
-    S.addOnChangeListener("allRewards", updateRewardsList)
-
     # stop double-click zoom-in on edit-items
     allEditItems = rewardconfigurationframe.getElementsByClassName("editframe-edit-item")
     item.addEventListener("click", (evnt) -> evnt.stopPropagation()) for item in allEditItems
@@ -228,7 +225,7 @@ updateRewardOptions = ->
     return
 
 ############################################################
-updateRewardsList = ->
+export updateRewardsList = ->
     log "updateRewardsList"
 
     html = ""
@@ -305,6 +302,7 @@ export prepareEditNewReward = ->
 
 export prepareEditReward = (index) ->
     log "prepareEditReward"
+    
     if index >= allRewards.length then throw new Error("prepareEditReward: Index out of bounds!")
     editIndex = index
 
