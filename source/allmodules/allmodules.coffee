@@ -6,7 +6,9 @@ import * as footermodule from "./footermodule.js"
 import * as headermodule from "./headermodule.js"
 import * as menumodule from "./menumodule.js"
 import * as navmodule from "./navmodule.js"
+import * as rewardconfigurationmodule from "./rewardconfigurationmodule.js"
 import * as rewardmodule from "./rewardmodule.js"
+import * as rewardslistmodule from "./rewardslistmodule.js"
 import * as statemodule from "./statemodule.js"
 import * as uistatemodule from "./uistatemodule.js"
 import * as usermodalmodule from "./usermodalmodule.js"
@@ -20,7 +22,9 @@ Modules = {
     headermodule,
     menumodule,
     navmodule,
+    rewardconfigurationmodule,
     rewardmodule,
+    rewardslistmodule,
     statemodule,
     uistatemodule,
     usermodalmodule,

@@ -15,6 +15,8 @@ import * as nav from "./navmodule.js"
 import * as menuModule from "./menumodule.js"
 import * as contentModule from "./contentmodule.js"
 import * as rewardModule from "./rewardmodule.js"
+import * as rewardsList from "./rewardslistmodule.js"
+import * as rewardConfiguration from "./rewardconfigurationmodule.js"
 
 ############################################################
 import * as deleteModal from "./deletemodal.js"
@@ -66,8 +68,8 @@ navStateChanged = ->
         when "configure-reward"
             if context? then index = parseInt(context.editIndex)
             else index = NaN
-            if Number.isNaN(index) then rewardModule.prepareEditNewReward()
-            else rewardModule.prepareEditReward(index)
+            if Number.isNaN(index) then rewardConfiguration.newReward()
+            else rewardConfiguration.editReward(index)
         # when "configure-account" then ##TODO
         
 
@@ -132,7 +134,7 @@ determineRootState = ->
 updateUIData = ->
     log "updateUIData"
     menuModule.updateRewards()
-    rewardModule.updateRewardsList()
+    rewardsList.updateRewards()
     return
 
 ############################################################

@@ -1,10 +1,11 @@
 ############################################################
 #region debug
 import { createLogFunctions } from "thingy-debug"
-{log, olog} = createLogFunctions("rewardmodule")
+{log, olog} = createLogFunctions("rewardconfigurationmodule")
 #endregion
 
 ############################################################
+#region imported Modules
 import M from "mustache"
 
 ############################################################
@@ -15,6 +16,8 @@ import * as app from "./appcoremodule.js"
 import * as deletemodal from "./deletemodal.js"
 import * as optioneditmodal from "./optioneditmodal.js"
 import * as optiondeleteModal from "./optiondeletemodal.js"
+
+#endregion
 
 ############################################################
 #region DOM cache
@@ -34,35 +37,21 @@ rewardOptionsTotalWeight = document.getElementById("reward-options-total-weight"
 rewardOptionsContainer = document.getElementById("reward-options-container")
 addRewardOptionButton = document.getElementById("add-reward-option-button")
 
-rewardOptionTemplateElement = document.getElementById("reward-option-template")
-
 #endregion
 
 ############################################################
-rewardOptionTemplate = ""
-
-############################################################
-selectedReward = null
-allRewards = []
-
-############################################################
-noRewards = true
+rewardOptionTemplate = document.getElementById("reward-option-template").innerHTML
 
 ############################################################
 editIndex = NaN
 editObj = null
 editOptions = null
 
+state = "none"
+
 ############################################################
 export initialize = ->
     log "initialize"
-    allRewards = S.load("allRewards") || []
-    S.save("allRewards", allRewards, true)
-    
-    S.set("selectedReward", null)
-    if allRewards.length > 0 then noAccount = false
-
-    # olog allRewards
 
     # connect configuration action buttons
     rewardconfigurationCancelButton.addEventListener("click", configurationCancelClicked)
@@ -75,11 +64,11 @@ export initialize = ->
     allEditItems = rewardconfigurationframe.getElementsByClassName("editframe-edit-item")
     item.addEventListener("click", (evnt) -> evnt.stopPropagation()) for item in allEditItems
 
-    # get templates
-    rewardOptionTemplate = rewardOptionTemplateElement.innerHTML
     return
 
 ############################################################
+#region Event Listeners
+
 addRewardOptionButtonClicked = (evnt) ->
     log "addRewardOptionButtonClicked"
 
@@ -165,6 +154,8 @@ rewardOptionDeleteClicked = (evnt) ->
 
     return
 
+#endregion
+
 ############################################################
 updateRewardOptions = ->
     log "updateRewardOptions"
@@ -201,26 +192,6 @@ updateRewardOptions = ->
     return
 
 ############################################################
-deleteReward = (index) ->
-    log "deleteReward #{index}"
-    if index >= allRewards.length then throw new Error("deleteReward: Index out of bounds!")
-
-    deleteSelected = allRewards[index] == selectedReward
-    
-    allRewards.splice(index, 1)
-    
-    if deleteSelected
-        selectedReward = null
-        S.set("selectedReward", null)
-
-    if allRewards.length == 0
-        noRewards = true
-
-    S.save("allRewards")
-    S.callOutChange("allRewards")
-    return
-
-############################################################
 resetConfiguration = ->
     log "resetConfiguration"
     
@@ -244,8 +215,9 @@ resetConfiguration = ->
     return
 
 ############################################################
-export prepareEditNewReward = ->
+export newReward = ->
     log "prepareEditNewReward"
+    return if state == "create"
     resetConfiguration()
     
     editIndex = allRewards.length
@@ -253,15 +225,18 @@ export prepareEditNewReward = ->
     editOptions = []
 
     rewardconfigurationTitle.textContent = "New Reward"
+    state = "create"
     return
 
-export prepareEditReward = (index) ->
+export editReward = (index) ->
     log "prepareEditReward #{index}"
-    
-    if index >= allRewards.length then throw new Error("prepareEditReward: Index out of bounds!")
-    editIndex = index
+    return if state == "edit #{index}"
 
+    if index >= allRewards.length then throw new Error("prepareEditReward: Index out of bounds!")
+
+    editIndex = index
     editObj = allRewards[index]
+
     if editObj.options? then editOptions = JSON.parse(JSON.stringify(editObj.options))
     else editOptions = []
 
@@ -273,22 +248,9 @@ export prepareEditReward = (index) ->
     updateRewardOptions()
 
     rewardconfigurationTitle.textContent = "Edit Reward"
-
     rewardconfigurationDeleteButton.classList.add("shown")
-    return
-
-############################################################
-export deleteAll = ->
-    log "deleteAll"
-    resetConfiguration()
-
-    allRewards = []
-    selectedReward = null
-    S.set("selectedReward", null)
-
-    noRewards = true
-
-    S.save("allRewards", allRewards)
+    
+    state = "edit #{index}"
     return
 
 ############################################################
@@ -314,10 +276,3 @@ export finalizeRewardOptionEdit = (index, optionObj) ->
     updateRewardOptions()
     return
 
-############################################################
-export getInfo = -> 
-    log "getInfo"
-    allInfo = {}
-    allInfo.allRewards = allRewards
-    allInfo.selectedReward = selectedReward
-    return allInfo
