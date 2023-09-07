@@ -95,8 +95,8 @@ configurationDeleteClicked = (evnt) ->
 configurationSaveClicked = (evnt) ->
     log "configurationSaveClicked"
     evnt.preventDefault()
+    allRewards = S.get("allRewards")
 
-    
     if editIndex == allRewards.length then allRewards.push(editObj)
 
     editObj.name = nameInput.value 
@@ -219,6 +219,7 @@ export newReward = ->
     log "prepareEditNewReward"
     return if state == "create"
     resetConfiguration()
+    allRewards = S.get("allRewards")
     
     editIndex = allRewards.length
     editObj = {}
@@ -231,6 +232,8 @@ export newReward = ->
 export editReward = (index) ->
     log "prepareEditReward #{index}"
     return if state == "edit #{index}"
+    allRewards = S.get("allRewards")
+
 
     if index >= allRewards.length then throw new Error("prepareEditReward: Index out of bounds!")
 

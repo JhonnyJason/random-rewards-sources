@@ -138,6 +138,7 @@ updateUIData = ->
     return
 
 ############################################################
+#region User Interaction Processes
 startConfirmLogoutProcess = ->
     log "startConfirmLogoutProcess"
     try
@@ -199,8 +200,16 @@ startRewardOptionAddProcess = (context) ->
 
 #endregion
 
+#endregion
+
 ############################################################
 #region User Action Triggers
+
+## Note: Probably there is a way to abstract the userTriggers away from the appcore
+# therefore all need to activate the same behavior in the Appcore 
+# first this is simple because it is currently reduced to a navigation step
+# however in the case of the menu we even need some logic...
+# Could the periphery direct communicate with the navmodule here??
 
 export triggerHome = ->
     log "triggerHome"
