@@ -31,9 +31,6 @@ import * as optioneditModal from "./optioneditmodal.js"
 #region Internal Variables
 
 ############################################################
-startUpProcessed = false
-
-############################################################
 appUIBaseState = "no-rewards"
 appUIModfier = "none"
 
@@ -50,6 +47,39 @@ export initialize = ->
     return
 
 ############################################################
+#region functions exposed to navmodule
+
+export loadAppWithNavState = (navState) ->
+    log "loadAppWithNavState"
+    baseState = navState.base
+    modifier = navState.modifier
+    context = navState.ctx
+
+    await startUp()
+
+    ########################################
+    switch baseState
+        when "RootState" then baseState = appUIRootState
+        when "configure-reward"
+            if context? then index = parseInt(context.editIndex)
+            else index = NaN
+            if Number.isNaN(index) then rewardConfiguration.newReward()
+            else rewardConfiguration.editReward(index)
+        # when "configure-account" then ##TODO
+        
+
+    switch modifier
+        when "logoutconfirmation" then startConfirmLogoutProcess()
+        when "deleteconfirmation" then startRewardDeletionProcess(context)
+        when "editoption"
+            if context.optionObj? then startRewardOptionEditProcess(context)
+            else startRewardOptionAddProcess(context)
+
+    ########################################
+    setAppState(baseState, modifier)    
+    return
+
+############################################################
 #region Event Listeners
 
 navStateChanged = ->
@@ -59,8 +89,6 @@ navStateChanged = ->
     baseState = navState.base
     modifier = navState.modifier
     context = navState.ctx
-
-    if !startUpProcessed then await startUp()
 
     ########################################
     switch baseState
@@ -93,6 +121,8 @@ rewardsChanged = ->
 
 #endregion
 
+
+
 ############################################################
 #region Helper Functions
 
@@ -111,8 +141,6 @@ startUp = ->
     log "startUp"
     determineRootState()
     updateUIData()
-    ## Check: is there more to be done here?
-    startUpProcessed = true
     return
 
 ############################################################
@@ -222,6 +250,7 @@ export triggerHome = ->
 
 export triggerMenu = (menuOn) ->
     log "triggerMenu"
+    olog { menuOn }
     if menuOn? and menuOn and appUIModfier == "menu" then return
     if menuOn? and !menuOn and appUIModfier != "menu" then return
     

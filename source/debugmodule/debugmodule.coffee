@@ -9,7 +9,8 @@ export modulesToDebug = {
     # errorfeedbackmodule: true
     # logoutmodal: true
     # menumodule: true
-    rewardmodule: true
+    navmodule: true
+    # rewardmodule: true
     # optioneditmodal: true
     # utilmodule: true
 

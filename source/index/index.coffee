@@ -5,7 +5,7 @@ domconnect.initialize()
 global.allModules = Modules
 
 ############################################################
-appStartup = -> Modules.navmodule.appLoaded()
+appStartup = Modules.navmodule.appLoaded
 
 ############################################################
 run = ->
