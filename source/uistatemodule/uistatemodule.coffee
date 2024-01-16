@@ -5,9 +5,6 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as S from "./statemodule.js"
-
-############################################################
 #region imported UI modules
 import * as content from "./contentmodule.js"
 import * as menu from "./menumodule.js"
@@ -23,31 +20,6 @@ import * as optioneditModal from "./optioneditmodal.js"
 ############################################################
 applyBaseState = {}
 applyModifier = {}
-
-############################################################
-export initialize = ->
-    ## prod log "initialize"
-    S.addOnChangeListener("uiState", applyUIState)
-    return
-
-############################################################
-applyUIState = ->
-    ## prod log "applyUIState"
-    uiState = S.get("uiState")
-
-    tokens = uiState.split(":")
-    base = tokens[0]
-    modifier = tokens[1]
-
-    applyBaseFunction = applyBaseState[base]
-    applyModifierFunction = applyModifier[modifier]
-
-    if typeof applyBaseFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' base '#{base}' did not have an apply function!")
-    if typeof applyModifierFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' modifier '#{modifier}' did not have an apply function!")
-
-    applyBaseFunction()
-    applyModifierFunction()
-    return
 
 ############################################################
 #region Base State Application Functions
@@ -166,5 +138,36 @@ applyModifier["editoption"] = ->
     return
 
 #endregion
+
+#endregion
+
+
+############################################################
+#region exported general Application Functions
+export applyUIState = (base, modifier) ->
+    log "applyUIState"
+    if base? then applyUIStateBase(base)
+    if modifier? then applyUIStateModifier(modifier)
+    return
+
+############################################################
+export applyUIStateBase = (base) ->
+    log "applyUIBaseState #{base}"
+    applyBaseFunction = applyBaseState[base]
+
+    if typeof applyBaseFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' base '#{base}' did not have an apply function!")
+
+    applyBaseFunction()
+    return
+
+############################################################
+export applyUIStateModifier = (modifier) ->
+    log "applyUIStateModifier #{modifier}"
+    applyModifierFunction = applyModifier[modifier]
+
+    if typeof applyModifierFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' modifier '#{modifier}' did not have an apply function!")
+
+    applyModifierFunction()
+    return
 
 #endregion

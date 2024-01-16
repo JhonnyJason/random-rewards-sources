@@ -10,6 +10,7 @@ import { createLogFunctions } from "thingy-debug"
 ############################################################
 import * as S from "./statemodule.js"
 import * as nav from "./navmodule.js"
+import * as uiState from "./uistatemodule.js"
 
 ############################################################
 import * as menuModule from "./menumodule.js"
@@ -42,7 +43,6 @@ appUIRootState = "no-rewards"
 ############################################################
 export initialize = ->
     log "initialize"
-    S.addOnChangeListener("navState", navStateChanged)
     S.addOnChangeListener("allRewards", rewardsChanged)
     return
 
@@ -79,13 +79,8 @@ export loadAppWithNavState = (navState) ->
     setAppState(baseState, modifier)    
     return
 
-############################################################
-#region Event Listeners
-
-navStateChanged = ->
-    log "navStateChanged"
-    navState = S.get("navState")
-    olog navState
+export setNavState = (navState) ->
+    log "setNavState"
     baseState = navState.base
     modifier = navState.modifier
     context = navState.ctx
@@ -113,6 +108,9 @@ navStateChanged = ->
     return
 
 ############################################################
+#region Event Listeners
+
+############################################################
 rewardsChanged = ->
     log "rewardsChanged"
     determineRootState()
@@ -133,7 +131,7 @@ setAppState = (base, mod) ->
     if mod then appUIModfier = mod
 
     log "#{appUIBaseState}:#{appUIModfier}"
-    S.set("uiState", "#{appUIBaseState}:#{appUIModfier}")
+    uiState.applyUIState(base, mod)
     return
 
 ############################################################
@@ -250,21 +248,21 @@ export triggerHome = ->
 
 export triggerMenu = (menuOn) ->
     log "triggerMenu"
-    olog { menuOn }
+    olog { menuOn, appUIModfier }
     if menuOn? and menuOn and appUIModfier == "menu" then return
     if menuOn? and !menuOn and appUIModfier != "menu" then return
     
     if menuOn? and menuOn and appUIModfier != "menu"
-        await nav.addModification("menu")
+        await nav.navigateModifier("menu")
         return
 
     if menuOn? and !menuOn and appUIModfier == "menu"
-        await nav.unmodify()
+        await nav.navigateModifier("none")
         return
 
     ## No specific hint if turning menu on or off -> toggle
-    if appUIModfier == "menu" then await nav.unmodify()
-    else await nav.addModification("menu")
+    if appUIModfier == "menu" then await nav.navigateModifier("none")
+    else await nav.navigateModifier("menu")
     return
 
 ############################################################
