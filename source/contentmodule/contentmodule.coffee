@@ -30,7 +30,7 @@ export initialize = ->
 ############################################################
 addNewRewardClicked = (evnt) ->
     log "addNewRewardClicked"
-    app.triggerRewardCreation()
+    app.createReward()
     return
 
 contentClicked = (evnt) ->

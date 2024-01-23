@@ -9,7 +9,9 @@ import M from "mustache"
 
 ############################################################
 import * as S from "./statemodule.js"
-import * as app from "./appcoremodule.js"
+import * as trigger from "./navtriggers.js"
+
+import { waitMS } from "./utilmodule.js"
 
 ############################################################
 rewardslistContainer = document.getElementById("rewardslist-container")
@@ -22,14 +24,15 @@ rewardButtonClicked = (evnt) ->
     rewardIndex = el.getAttribute("reward-index")
     log rewardIndex
 
-    app.triggerRewardSelection(rewardIndex)
+    trigger.selectReward(rewardIndex)
     return
 
 ############################################################
 export updateRewards = ->
     log "updateRewards"
     allRewards = S.get("allRewards")
-
+    await waitMS(2000)
+    
     html = ""
     for reward,idx in allRewards
         log "#{idx}:#{reward.name}"

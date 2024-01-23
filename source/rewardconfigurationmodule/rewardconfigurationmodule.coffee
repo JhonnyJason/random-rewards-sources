@@ -10,9 +10,9 @@ import M from "mustache"
 
 ############################################################
 import * as S from "./statemodule.js"
+import * as trigger from "./navtriggers.js"
 
 ############################################################
-import * as app from "./appcoremodule.js"
 import * as deletemodal from "./deletemodal.js"
 import * as optioneditmodal from "./optioneditmodal.js"
 import * as optiondeleteModal from "./optiondeletemodal.js"
@@ -76,20 +76,20 @@ addRewardOptionButtonClicked = (evnt) ->
     if !editOptions? then editOptions = []
 
     context = {editObj, editIndex}
-    app.triggerRewardOptionEdit(context)
+    trigger.editRewardOption(context)
     return
 
 configurationCancelClicked = (evnt) ->
     log "configurationCancelClicked"
     evnt.preventDefault()
     resetConfiguration()
-    app.triggerHome()
+    trigger.home()
     return
 
 configurationDeleteClicked = (evnt) ->
     log "configurationDeleteClicked"
     evnt.preventDefault()
-    app.triggerRewardDeletion({ editObj, editIndex })
+    trigger.deleteReward({ editObj, editIndex })
     return
 
 configurationSaveClicked = (evnt) ->
@@ -111,7 +111,7 @@ configurationSaveClicked = (evnt) ->
     S.save("allRewards")
     S.callOutChange("allRewards")
     resetConfiguration()
-    app.triggerHome()
+    trigger.home()
     return
 
 ############################################################
@@ -121,7 +121,7 @@ rewardButtonClicked = (evnt) ->
     rewardIndex = el.getAttribute("reward-index")
     log rewardIndex
 
-    app.triggerRewardSelection(rewardIndex)
+    trigger.selectReward({rewardIndex})
     return
 
 rewardOptionClicked = (evnt) ->
@@ -134,7 +134,7 @@ rewardOptionClicked = (evnt) ->
     optionIndex = index
 
     context = {editObj, editIndex, optionObj, optionIndex}
-    app.triggerRewardOptionEdit(context)
+    trigger.editRewardOption(context)
     return
 
 rewardOptionDeleteClicked = (evnt) ->
@@ -149,9 +149,7 @@ rewardOptionDeleteClicked = (evnt) ->
         # await optiondeleteModal.userConfirmation(optionObj)
         editOptions.splice(index, 1)
         updateRewardOptions()
-    catch err
-        log err
-
+    catch err then log err
     return
 
 #endregion

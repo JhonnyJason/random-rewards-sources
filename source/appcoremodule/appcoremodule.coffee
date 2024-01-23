@@ -9,7 +9,7 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import * as S from "./statemodule.js"
-import * as nav from "./navmodule.js"
+import * as nav from "./navhandler.js"
 import * as uiState from "./uistatemodule.js"
 
 ############################################################
@@ -43,6 +43,7 @@ appUIRootState = "no-rewards"
 ############################################################
 export initialize = ->
     log "initialize"
+    nav.initialize(loadAppWithNavState, setNavState)
     S.addOnChangeListener("allRewards", rewardsChanged)
     return
 
@@ -171,7 +172,7 @@ startConfirmLogoutProcess = ->
         setAppState("", "logoutconfirmation")
         await logoutModal.userConfirmation()
         rewardModule.deleteAll()
-        triggerHome()
+        await nav.backToRoot()
     catch err #then await nav.unmodify()
         log err
         await nav.unmodify()
@@ -185,8 +186,7 @@ startRewardDeletionProcess = (context) ->
         setAppState("", "deleteconfirmation")
         await deleteModal.userConfirmation(cObj)
         rewardModule.finalizeDeletion()
-        triggerHome()
-
+        await nav.backToRoot()
     catch err #then await nav.unmodify()
         log err
         await nav.unmodify()
@@ -225,82 +225,5 @@ startRewardOptionAddProcess = (context) ->
     return
 
 #endregion
-
-#endregion
-
-############################################################
-#region User Action Triggers
-
-## Note: Probably there is a way to abstract the userTriggers away from the appcore
-# therefore all need to activate the same behavior in the Appcore 
-# first this is simple because it is currently reduced to a navigation step
-# however in the case of the menu we even need some logic...
-# Could the periphery direct communicate with the navmodule here??
-
-export triggerHome = ->
-    log "triggerHome"
-    # setAppState(appUIRootState, "none")
-    await nav.backToRoot()
-    # rewardInfo = rewardModule.getInfo()
-    # if rewardInfo.allRewards.length > 0 then 
-    # else contentModule.setStateToWelcome()
-    return
-
-export triggerMenu = (menuOn) ->
-    log "triggerMenu"
-    olog { menuOn, appUIModfier }
-    if menuOn? and menuOn and appUIModfier == "menu" then return
-    if menuOn? and !menuOn and appUIModfier != "menu" then return
-    
-    if menuOn? and menuOn and appUIModfier != "menu"
-        await nav.navigateModifier("menu")
-        return
-
-    if menuOn? and !menuOn and appUIModfier == "menu"
-        await nav.navigateModifier("none")
-        return
-
-    ## No specific hint if turning menu on or off -> toggle
-    if appUIModfier == "menu" then await nav.navigateModifier("none")
-    else await nav.navigateModifier("menu")
-    return
-
-############################################################
-export triggerAccountConfiguration = ->
-    log "triggerAccountConfiguration"
-    await nav.addStateNavigation("configure-account")
-    return
-
-export triggerRewardCreation = ->
-    log "triggerRewardCreation"
-    await nav.addStateNavigation("configure-reward")    
-    return
-
-export triggerRewardConfiguration = (index) ->
-    log "triggerRewardConfiguration"
-    await nav.addStateNavigation("configure-reward", index)    
-    return
-
-export triggerRewardDeletion = (rewardContext) ->
-    log "triggerRewardDeletion"
-    await nav.addModification("deleteconfirmation", rewardContext)
-    return
-
-export triggerRewardOptionEdit = (rewardOptionContext) ->
-    log "triggerRewardOptionEdit"
-    await nav.addModification("editoption", rewardOptionContext)    
-    return
-
-export triggerRewardSelection = (index) ->
-    log "triggerRewardSelection"
-    # await nav.addStateNavigation("-reward")##TODO
-    return
-
-############################################################
-export triggerLogout = ->
-    log "triggerLogout"
-    await nav.addModification("logoutconfirmation")
-    return
-
 
 #endregion

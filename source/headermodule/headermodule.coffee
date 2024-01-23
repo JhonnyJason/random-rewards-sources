@@ -5,7 +5,7 @@ import { createLogFunctions } from "thingy-debug"
 #endregion
 
 ############################################################
-import * as app from "./appcoremodule.js"
+import * as trigger from "./navtriggers.js"
 
 ############################################################
 appLogo = document.getElementById("app-logo")
@@ -23,17 +23,17 @@ export initialize = ->
 ############################################################
 appLogoClicked = ->
     log "appLogoClicked"
-    app.triggerHome()
+    trigger.home()
     return
 
 menuButtonClicked = ->
     log "menuButtonClicked"
-    app.triggerMenu(true)
+    trigger.menu(true)
     return
 
 menuCloseButtonClicked = ->
     log "menuCloseButtonClicked"
-    app.triggerMenu(false)
+    trigger.menu(false)
     return
 
 

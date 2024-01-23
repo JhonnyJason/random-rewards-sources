@@ -6,12 +6,10 @@ import { createLogFunctions } from "thingy-debug"
 
 ############################################################
 import M from "mustache"
+import * as trigger from "./navtriggers.js"
 
 ############################################################
 import * as S from "./statemodule.js"
-
-############################################################
-import * as app from "./appcoremodule.js"
 
 ############################################################
 menuHome = document.getElementById("menu-home")
@@ -31,7 +29,7 @@ export initialize = ->
     menuAccount.addEventListener("click", menuAccountClicked)
     menuAddReward.addEventListener("click", addRewardClicked)
     menuLogout.addEventListener("click", logoutClicked)
-    menu.addEventListener("click", setMenuOff)
+    menu.addEventListener("click", menuClicked)
     return
 
 ############################################################
@@ -43,7 +41,7 @@ rewardEntryClicked = (evnt) ->
     el = evnt.currentTarget
     editIndex = el.getAttribute("reward-index")
     log editIndex
-    app.triggerRewardConfiguration({editIndex})
+    trigger.editReward({editIndex})
 
     # {activeAccount} = accountModule.getAccountsInfo()
     # userIndex = parseInt(userIndex)
@@ -53,24 +51,29 @@ rewardEntryClicked = (evnt) ->
     # accountModule.setAccountActive(userIndex) unless userIndex == NaN
     return
 
+############################################################
+menuClicked = (evnt) ->
+    log "menuClicked"
+    return trigger.menu(false)
+
 menuHomeClicked = (evnt) ->
     log "menuHomeClicked"
-    app.triggerHome()
+    trigger.home()
     return
 
 menuAccountClicked = (evnt) ->
     log "menuAccountClicked"
-    app.triggerAccountConfiguration()
+    trigger.configureAccount()
     return
 
 addRewardClicked = (evnt) ->
     log "addRewardClicked"
-    app.triggerRewardCreation()
+    trigger.createReward()
     return
 
 logoutClicked = (evnt) ->
     log "logoutClicked"
-    app.triggerLogout()
+    trigger.logout()
     return
 
 #endregion

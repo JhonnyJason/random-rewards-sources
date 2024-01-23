@@ -40,6 +40,10 @@ applyBaseState["configure-reward"] = ->
     content.setStateToConfigureReward()    
     return
 
+applyBaseState["configure-account"] = ->
+    content.setStateToConfigureAccount()    
+    return
+
 #endregion
 
 ############################################################
@@ -155,7 +159,7 @@ export applyUIStateBase = (base) ->
     log "applyUIBaseState #{base}"
     applyBaseFunction = applyBaseState[base]
 
-    if typeof applyBaseFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' base '#{base}' did not have an apply function!")
+    if typeof applyBaseFunction != "function" then throw new Error("on applyUIStateBase:base '#{base}' did not have an application function!")
 
     applyBaseFunction()
     return
@@ -165,7 +169,7 @@ export applyUIStateModifier = (modifier) ->
     log "applyUIStateModifier #{modifier}"
     applyModifierFunction = applyModifier[modifier]
 
-    if typeof applyModifierFunction != "function" then throw new Error("on applyUIState: with '#{uiState}' modifier '#{modifier}' did not have an apply function!")
+    if typeof applyUIStateModifier != "function" then throw new Error("on applyUIStateModifier: modifier '#{modifier}' did not have an apply function!")
 
     applyModifierFunction()
     return
