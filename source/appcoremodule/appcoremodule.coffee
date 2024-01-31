@@ -54,7 +54,7 @@ export loadAppWithNavState = (navState) ->
     log "loadAppWithNavState"
     baseState = navState.base
     modifier = navState.modifier
-    context = navState.ctx
+    context = navState.context
 
     await startUp()
 
@@ -84,7 +84,7 @@ export setNavState = (navState) ->
     log "setNavState"
     baseState = navState.base
     modifier = navState.modifier
-    context = navState.ctx
+    context = navState.context
 
     ########################################
     switch baseState
