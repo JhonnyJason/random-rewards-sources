@@ -10,6 +10,7 @@ export modulesToDebug = {
     # logoutmodal: true
     # menumodule: true
     navhandler: true
+    navtriggers: true
     # rewardmodule: true
     # optioneditmodal: true
     # utilmodule: true

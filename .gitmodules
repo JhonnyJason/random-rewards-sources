@@ -4,6 +4,3 @@
 [submodule "source/statemodule"]
 	path = source/statemodule
 	url = git@github.com:JhonnyJason/pwa-sources-statemodule.git
-[submodule "source/navmodule"]
-	path = source/navmodule
-	url = git@github.com:JhonnyJason/pwa-sources-navmodule.git

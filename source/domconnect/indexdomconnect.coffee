@@ -3,7 +3,6 @@ indexdomconnect = {name: "indexdomconnect"}
 ############################################################
 indexdomconnect.initialize = () ->
     global.realBody = document.getElementById("real-body")
-    global.navstatedisplay = document.getElementById("navstatedisplay")
     global.content = document.getElementById("content")
     global.menuEntryTemplate = document.getElementById("menu-entry-template")
     global.menu = document.getElementById("menu")

@@ -159,7 +159,7 @@ export applyUIStateBase = (base) ->
     log "applyUIBaseState #{base}"
     applyBaseFunction = applyBaseState[base]
 
-    if typeof applyBaseFunction != "function" then throw new Error("on applyUIStateBase:base '#{base}' did not have an application function!")
+    if typeof applyBaseFunction != "function" then throw new Error("on applyUIStateBase: base '#{base}' did not have an application function!")
 
     applyBaseFunction()
     return

@@ -43,12 +43,12 @@ appUIRootState = "no-rewards"
 ############################################################
 export initialize = ->
     log "initialize"
-    nav.initialize(loadAppWithNavState, setNavState)
+    nav.initialize(loadAppWithNavState, setNavState, true)
     S.addOnChangeListener("allRewards", rewardsChanged)
     return
 
 ############################################################
-#region functions exposed to navmodule
+#region functions for the navhandler
 
 export loadAppWithNavState = (navState) ->
     log "loadAppWithNavState"
@@ -132,7 +132,7 @@ setAppState = (base, mod) ->
     if mod then appUIModfier = mod
 
     log "#{appUIBaseState}:#{appUIModfier}"
-    uiState.applyUIState(base, mod)
+    uiState.applyUIState(appUIBaseState, appUIModfier)
     return
 
 ############################################################
@@ -172,10 +172,10 @@ startConfirmLogoutProcess = ->
         setAppState("", "logoutconfirmation")
         await logoutModal.userConfirmation()
         rewardModule.deleteAll()
-        await nav.backToRoot()
-    catch err #then await nav.unmodify()
+        await nav.toRoot(true)
+    catch err #then await nav.toMod("none")
         log err
-        await nav.unmodify()
+        await nav.toMod("none")
     return
 
 startRewardDeletionProcess = (context) ->
@@ -186,10 +186,10 @@ startRewardDeletionProcess = (context) ->
         setAppState("", "deleteconfirmation")
         await deleteModal.userConfirmation(cObj)
         rewardModule.finalizeDeletion()
-        await nav.backToRoot()
-    catch err #then await nav.unmodify()
+        await nav.toRoot(true)
+    catch err #then await nav.toMod("none")
         log err
-        await nav.unmodify()
+        await nav.toMod("none")
     return
 
 startRewardOptionAddProcess = ->
@@ -199,7 +199,7 @@ startRewardOptionAddProcess = ->
         optionObj = await optioneditModal.userCreate()
         rewardModule.addNewRewardOption(optionObj)
     catch err then log err
-    finally await nav.unmodify()
+    finally await nav.toMod("none")
     return
 
 startRewardOptionEditProcess = (context) ->
@@ -211,7 +211,7 @@ startRewardOptionEditProcess = (context) ->
         optionObj = await optioneditModal.userEdit(context.optionObj)
         rewardModule.finalizeRewardOptionEdit(index, optionObj)
     catch err then log err
-    finally await nav.unmodify()
+    finally await nav.toMod("none")
     return
 
 startRewardOptionAddProcess = (context) ->
@@ -221,7 +221,7 @@ startRewardOptionAddProcess = (context) ->
         optionObj = await optioneditModal.userCreate()
         rewardModule.addNewRewardOption(optionObj)
     catch err then log err
-    finally await nav.unmodify()
+    finally await nav.toMod("none")
     return
 
 #endregion
